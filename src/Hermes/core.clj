@@ -10,16 +10,21 @@
 (def success-flag TransactionalGraph$Conclusion/SUCCESS)
 (def failure-flag TransactionalGraph$Conclusion/FAILURE)
 
-(defn create-config [m]
-  "string"
+(defn convert-config-map [m]
+  (let [conf (BaseConfiguration.)        
+        _ (doseq [[k1 v1] m]
+            (if (string? v1)
+              (.setProperty conf (name k1) v1)
+              (doseq [[k2 v2] v1]
+                (.setProperty conf (str (name k1) "." (name k2)) v2))))]
+    conf))
 
-  )
 (defn open
   ([ ] (alter-var-root (var *graph*) (fn [_] (TitanFactory/openInMemoryGraph))))
   ([m] (alter-var-root (var *graph*) (fn [_]
                                        (if (string? m)
                                          (TitanFactory/open m)
-                                         (TitanFactory/open (create-config m)))))))
+                                         (TitanFactory/open (convert-config-map m)))))))
 
 (defmacro transact [& forms]
   `(try (let [tx#      (.startTransaction *graph*)
