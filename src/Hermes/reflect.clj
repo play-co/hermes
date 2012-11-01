@@ -1,4 +1,4 @@
-(ns Hermes.reflect
+(ns hermes.reflect
   (:require [clojure.reflect :as r])
   (:use [clojure.pprint :only (pprint)]))
 

@@ -16,5 +16,11 @@
     (.getVertex *graph* (first ids))
     (seq (for [id ids] (.getVertex *graph* id)))))
 
+(defn find [k v]
+  (set (.getVertices *graph* k v)))
+
+(defn index-on [key]
+  (.createKeyIndex *graph* key Vertex))
+
 (defn all []
   (.getVertices *graph*))

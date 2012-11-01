@@ -1,5 +1,5 @@
 (ns hermes.edge
-  (:import (com.tinkerpop.blueprints Vertex))  
+  (:import (com.tinkerpop.blueprints Edge))  
   (:use [hermes.core :only (*graph*)]
         [hermes.util :only (immigrate)]))
 
