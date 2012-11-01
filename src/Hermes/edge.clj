@@ -11,8 +11,8 @@
                           _     (doseq [[k v] data] (set-property edge (name k) v))]
                       edge)))
 
-(defn get [& ids]
-  (for [id ids] (.getEdge *graph* id)))
+;; (defn get [& ids]
+;;   (for [id ids] (.getEdge *graph* id)))
 
 (defn all []
   (.getVertices *graph*))
