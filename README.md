@@ -37,13 +37,13 @@ user> v
 #<PersistStandardTitanVertex v[4]>
 user> (hermes.vertex/to-map v)
 {:id 4}
-user> (hermes.vertex/set-property v "name" "Hermes Conrad") 
+user> (hermes.vertex/set-property! v :name "Hermes Conrad") 
 nil
-user> (hermes.vertex/get-property v "name")
+user> (hermes.vertex/get-property v :name)
 "Hermes Conrad"
 user> (hermes.vertex/to-map v)
 {:id 4, :name "Hermes Conrad"}
-user> (hermes.vertex/remove-property v "name")
+user> (hermes.vertex/remove-property! v :name)
 "Hermes Conrad"
 user> (hermes.vertex/to-map v)
 {:id 4}
@@ -75,6 +75,16 @@ user> (hermes.core/transact
        e (hermes.edge/create v u "lovers")]
    [v u e]))
 [#<PersistStandardTitanVertex v[2400004]> #<PersistStandardTitanVertex v[2400008]> #<PersistLabeledTitanEdge e[12000013:2400004:36028797018965582][2400004-lovers->2400008]>]
+```
+
+Indexes are for nerds. 
+``` clojure
+user> (hermes.vertex/index-on :name)
+nil
+user> (def Zack (v/create {:name "Zack"}))
+#'user/Zack
+user> (v/find :name "Zack")
+#{#<PersistStandardTitanVertex v[20]>}
 ```
 TODO: Still working on understanding types as they pertain to indexes and RelationIdentifiers. 
 ## License

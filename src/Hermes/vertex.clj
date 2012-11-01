@@ -17,10 +17,10 @@
     (seq (for [id ids] (.getVertex *graph* id)))))
 
 (defn find [k v]
-  (set (.getVertices *graph* k v)))
+  (set (.getVertices *graph* (name k) v)))
 
 (defn index-on [key]
-  (.createKeyIndex *graph* key Vertex))
+  (.createKeyIndex *graph* (name key) Vertex))
 
 (defn all []
   (.getVertices *graph*))

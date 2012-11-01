@@ -19,14 +19,14 @@
   (get-id [this]
     (.getId this))
 
-  (set-property [this key value]
-    (.setProperty this key value))
+  (set-property! [this key value]
+    (.setProperty this (name key) value))
   
   (get-property [this key]
-    (.getProperty this key))
+    (.getProperty this (name key)))
 
-  (remove-property [this key]
-    (.removeProperty this key))
+  (remove-property! [this key]
+    (.removeProperty this (name key)))
   
   (to-map [this]
     (into {:id (get-id this)} (map

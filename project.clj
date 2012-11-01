@@ -1,4 +1,4 @@
-(defproject hermes "0.1.2-SNAPSHOT"
+(defproject hermes "0.1.4-SNAPSHOT"
   :description "Embedded Titan Graph"
   :url "https://github.com/gameclosure/hermes"
   :license {:name "Eclipse Public License"
