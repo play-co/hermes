@@ -1,8 +1,9 @@
 (ns hermes.edge
-  (:import (com.tinkerpop.blueprints Vertex))
+  (:import (com.tinkerpop.blueprints Vertex))  
   (:use [hermes.core :only (*graph*)]
-        hermes.element))
+        [hermes.util :only (immigrate)]))
 
+(immigrate 'hermes.element)
 
 (defn create
   ([u v label] (create u v label {}))
