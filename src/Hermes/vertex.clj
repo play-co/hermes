@@ -1,7 +1,7 @@
 (ns hermes.vertex
   (:import (com.tinkerpop.blueprints Vertex))
-  (:use [Hermes.core :only (*graph*)]
-        Hermes.element))
+  (:use [hermes.core :only (*graph*)]
+        hermes.element))
 
 (defn create
   ([] (create {}))
@@ -10,7 +10,9 @@
             vertex)))
 
 (defn get [& ids]
-  (for [id ids] (.getVertex *graph* id)))
+  (if (= 1 (count ids))
+    (.getVertex *graph* (first ids))
+    (seq (for [id ids] (.getVertex *graph* id)))))
 
 (defn all []
   (.getVertices *graph*))

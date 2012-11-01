@@ -1,4 +1,4 @@
-(ns Hermes.element
+(ns hermes.element
   (:import (com.tinkerpop.blueprints Element)))
 
 (defprotocol HermesElement
@@ -9,7 +9,6 @@
   (to-map [this])
   (remove-property [this key])
   (set-property [this key value]))
-
 
 (extend-type Element
   HermesElement
@@ -33,3 +32,4 @@
     (into {:id (get-id this)} (map
               #(vector (keyword %1) (get-property this %1))
               (get-keys this)))))
+
