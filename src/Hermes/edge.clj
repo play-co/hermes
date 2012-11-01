@@ -1,4 +1,4 @@
-(ns Hermes.edge
+(ns hermes.edge
   (:import (com.tinkerpop.blueprints Vertex))
   (:use [Hermes.core :only (*graph*)]
         Hermes.element))

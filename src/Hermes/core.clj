@@ -1,4 +1,4 @@
-(ns Hermes.core
+(ns hermes.core
   (:import (com.thinkaurelius.titan.core TitanFactory)
            (com.tinkerpop.blueprints Element TransactionalGraph TransactionalGraph$Conclusion)
            (org.apache.commons.configuration BaseConfiguration))
@@ -25,7 +25,6 @@
                                        (if (string? m)
                                          (TitanFactory/open m)
                                          (TitanFactory/open (convert-config-map m)))))))
-
 (defmacro transact [& forms]
   `(try (let [tx#      (.startTransaction *graph*)
               results# (binding [*graph* tx#] ~@forms)
