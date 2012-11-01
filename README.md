@@ -2,6 +2,7 @@
 
 A Clojure library designed to make it easy to work with embedded [Titan](http://thinkaurelius.github.com/titan/) graphs. 
 
+Check [clojars](https://clojars.org/hermes) for the latest jar.
 ## Usage
 
 Messing around with vertices.
