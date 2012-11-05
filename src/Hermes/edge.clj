@@ -8,5 +8,5 @@
 (defn create
   ([u v label] (create u v label {}))
   ([u v label data] (let [edge (.addEdge *graph* u v label)
-                          _     (doseq [[k v] data] (set-property edge (name k) v))]
+                          _     (doseq [[k v] data] (set-property! edge (name k) v))]
                       edge)))

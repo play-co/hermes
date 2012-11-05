@@ -6,9 +6,9 @@
   (get-keys [this])
   (get-id [this])
   (get-property [this key])
-  (to-map [this])
-  (remove-property [this key])
-  (set-property [this key value]))
+  (prop-map [this])
+  (remove-property! [this key])
+  (set-property! [this key value]))
 
 (extend-type Element
   HermesElement
@@ -28,7 +28,7 @@
   (remove-property! [this key]
     (.removeProperty this (name key)))
   
-  (to-map [this]
+  (prop-map [this]
     (into {:id (get-id this)} (map
               #(vector (keyword %1) (get-property this %1))
               (get-keys this)))))

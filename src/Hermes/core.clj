@@ -2,7 +2,7 @@
   (:import (com.thinkaurelius.titan.core TitanFactory)
            (com.tinkerpop.blueprints Element TransactionalGraph TransactionalGraph$Conclusion)
            (org.apache.commons.configuration BaseConfiguration))
-  (:use Hermes.reflect))
+  (:use hermes.reflect))
 
 
 (def ^{:dynamic true} *graph*)
