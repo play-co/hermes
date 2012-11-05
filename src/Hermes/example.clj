@@ -1,11 +1,14 @@
 (ns hermes.example
   (:require [hermes.core   :as g]
             [hermes.vertex :as v]
-            [hermes.edge   :as e])
+            [hermes.edge   :as e]
+            [hermes.type   :as t])
   (:use hermes.query))
 
 (g/open)
-(v/index-on "name")
+
+(t/create-vertex-key-once :name String {:unique true
+                                        :indexed true})
 
 (def Zack (v/create {:name "Zack"
                      :age "21"
@@ -34,15 +37,16 @@
 (e/create Brooke Cindy  "child")
 (e/create Brooke Steve  "child")
 
-(defquery siblings-with
+(defquery siblings-with []
   (--- "siblings"))
 
-(defquery child-of
+(defquery child-of []
   (--> "child"))
 
-(defquery find-parents-of-siblings
+(defquery find-parents-of-siblings []
   siblings-with
   child-of
   properties!)
 
-(println (find-parents-of-siblings Zack))
+;;(println (find-parents-of-siblings Zack))
+
