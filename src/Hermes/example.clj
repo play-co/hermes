@@ -34,16 +34,8 @@
 (e/create Brooke Cindy  "child")
 (e/create Brooke Steve  "child")
 
-(defn a-test-query [vertex]
-  (.. vertex
-      query
-      (labels (into-array String ["siblings"]))
-      (labels (into-array String ["child"]))
-      vertexIds
-      ))
-
 (defquery siblings-with
-  (<-- "siblings"))
+  (--- "siblings"))
 
 (defquery child-of
   (--> "child"))
@@ -52,3 +44,5 @@
   siblings-with
   child-of
   properties!)
+
+(println (find-parents-of-siblings Zack))

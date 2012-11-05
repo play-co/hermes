@@ -35,17 +35,17 @@ user> (def v (hermes.vertex/get 4))
 #'user/v
 user> v
 #<PersistStandardTitanVertex v[4]>
-user> (hermes.vertex/to-map v)
+user> (hermes.vertex/prop-map v)
 {:id 4}
 user> (hermes.vertex/set-property! v :name "Hermes Conrad") 
 nil
 user> (hermes.vertex/get-property v :name)
 "Hermes Conrad"
-user> (hermes.vertex/to-map v)
+user> (hermes.vertex/prop-map v)
 {:id 4, :name "Hermes Conrad"}
 user> (hermes.vertex/remove-property! v :name)
 "Hermes Conrad"
-user> (hermes.vertex/to-map v)
+user> (hermes.vertex/prop-map v)
 {:id 4}
 ```
 
@@ -86,6 +86,61 @@ user> (def Zack (v/create {:name "Zack"}))
 user> (v/find :name "Zack")
 #{#<PersistStandardTitanVertex v[20]>}
 ```
+
+Queiers killed the cat.
+``` clojure
+(ns hermes.example
+  (:require [hermes.core   :as g]
+            [hermes.vertex :as v]
+            [hermes.edge   :as e])
+  (:use hermes.query))
+
+(g/open)
+(v/index-on "name")
+
+(def Zack (v/create {:name "Zack"
+                     :age "21"
+                     :gender "Male"
+                     :occupation "INTERN"}))
+
+(def Brooke (v/create {:name "Brooke"
+                       :age "19"
+                       :gender "Female"
+                       :occupation "Student"}))
+
+(def Cindy (v/create {:name "Cindy"
+                      :occupation "Saleswoman"}))
+
+(def Steve (v/create {:name "Steve"
+                      :occupation "Salesmen"}))
+
+;;Direction? 
+(e/create Zack Brooke "siblings")
+
+(e/create Steve Cindy  "married")
+
+(e/create Zack Cindy  "child")
+(e/create Zack Steve  "child")
+
+(e/create Brooke Cindy  "child")
+(e/create Brooke Steve  "child")
+
+(defquery siblings-with
+  (--- "siblings"))
+
+(defquery child-of
+  (--> "child"))
+
+(defquery find-parents-of-siblings
+  siblings-with
+  child-of
+  properties!)
+
+(println (find-parents-of-siblings Zack))
+;;({:id 108, :occupation "Saleswoman", :name "Cindy"} {:id 120, :occupation "Salesmen", :name "Steve"})
+```
+
+The best bet right now is to read the source code. 
 TODO: Still working on understanding types as they pertain to indexes and RelationIdentifiers. 
 ## License
 
