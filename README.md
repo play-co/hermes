@@ -87,7 +87,7 @@ user> (v/find :name "Zack")
 #{#<PersistStandardTitanVertex v[20]>}
 ```
 
-Queiers killed the cat.
+Queries killed the cat.
 ``` clojure
 (ns hermes.example
   (:require [hermes.core   :as g]
@@ -114,7 +114,6 @@ Queiers killed the cat.
 (def Steve (v/create {:name "Steve"
                       :occupation "Salesmen"}))
 
-;;Direction? 
 (e/create Zack Brooke "siblings")
 
 (e/create Steve Cindy  "married")
