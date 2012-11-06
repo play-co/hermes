@@ -11,12 +11,12 @@
                 _      (doseq [[k v] data] (set-property! vertex (name k) v))]
             vertex)))
 
-(defn get [& ids]
+(defn get-by-id [& ids]
   (if (= 1 (count ids))
     (.getVertex *graph* (first ids))
     (seq (for [id ids] (.getVertex *graph* id)))))
 
-(defn find [k v]
+(defn find-by-kv [k v]
   (set (.getVertices *graph* (name k) v)))
 
 (defn index-on [key]

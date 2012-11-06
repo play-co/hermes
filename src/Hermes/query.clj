@@ -4,11 +4,12 @@
   (:use [hermes.core :only (*graph*)]))
 
 (defmacro defquery [name & body]
-  `(defn ~name [vertex#]
-     (let [query# (if (= com.thinkaurelius.titan.graphdb.query.SimpleTitanQuery (type vertex#))
-                    vertex#
-                    (.query vertex#))
-           results# (-> query# ~@body)]
+  `(defn ~name [v#]
+     (let [q# (if (= com.thinkaurelius.titan.graphdb.query.SimpleTitanQuery
+                         (type v#))
+                    v#
+                    (.query v#))
+           results# (-> q# ~@body)]
        results#)))
 
 (def out-flag Direction/OUT)
@@ -18,16 +19,18 @@
 (defmacro def-directed-query [name direction]
   `(defn ~name
      ([q#]          (-> q#
-                       (.labels (into-array String []))
-                       (.direction ~direction)))
-       ([q# & labels#] (-> q#
-                    (.labels (into-array String labels#))
-                    (.direction ~direction)))))
+                        (.labels (into-array String []))
+                        (.direction ~direction)))
+     ([q# & labels#] (-> q#
+                         (.labels (into-array String labels#))
+                         (.direction ~direction)))))
 
 (def-directed-query --> out-flag)
 (def-directed-query <-- in-flag)
 (def-directed-query --- both-flag)
 
+(defn has-key [q & keys]
+  (.keys q (into-array String keys)))
 
 (defn V! [q]
   (seq (.vertexIds q)))

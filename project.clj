@@ -1,4 +1,4 @@
-(defproject hermes "0.1.7"
+(defproject hermes "0.1.8"
   :description "Embedded Titan Graph"
   :url "https://github.com/gameclosure/hermes"
   :license {:name "Eclipse Public License"
@@ -7,4 +7,5 @@
                  ["apache" "http://repository.apache.org/content/repositories/releases/"]] 
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [com.tinkerpop.blueprints/blueprints-core "2.1.0"]
-                 [com.thinkaurelius.titan/titan "0.1.0"]])
+                 [com.thinkaurelius.titan/titan "0.1.0"]]
+  :main hermes.example)

@@ -37,16 +37,18 @@
 (e/create Brooke Cindy  "child")
 (e/create Brooke Steve  "child")
 
-(defquery siblings-with []
-  (--- "siblings"))
+(defquery siblings-with 
+   (--- "siblings"))
 
-(defquery child-of []
-  (--> "child"))
+(defquery child-of 
+   (--> "child"))
 
-(defquery find-parents-of-siblings []
+(defquery find-parents-of-siblings
   siblings-with
   child-of
   properties!)
 
-;;(println (find-parents-of-siblings Zack))
+(println (find-parents-of-siblings Zack))
 
+(defn -main [& args]
+  "Hello World!")

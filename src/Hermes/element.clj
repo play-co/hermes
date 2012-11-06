@@ -33,3 +33,10 @@
               #(vector (keyword %1) (get-property this %1))
               (get-keys this)))))
 
+;; There is a way of doing this that involves reify or proxy that
+;; would make (:name (v/create {:name "Zack"})) work. 
+;; (extend Element
+;;   clojure.lang.ILookup
+;;   {:valAt (fn
+;;             ([this k not-found] nil)
+;;             ([this k] (.getProperty this (name k))))})  
