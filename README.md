@@ -5,6 +5,11 @@
 A Clojure library designed to make it easy to work with embedded [Titan](http://thinkaurelius.github.com/titan/) graphs. 
 
 Check [clojars](https://clojars.org/hermes) for the latest jar.
+
+This is very much a work in progress. Titan is a young project and has
+yet to even hit 0.2. Hermes will probably always be a work in progress
+until Titan hits 1.0. So, use this in production at your own peril.
+
 ## Usage
 
 Open up a graph in memory.
@@ -69,7 +74,7 @@ user> (hermes.edge/create wife child "parent" {:role "mother"})
 
 Transactions are for lovers. 
 ``` clojure
-user> (hermes.core/transact
+user> (hermes.core/transact!
  (let [v (hermes.vertex/create)
        u (hermes.vertex/create)
        e (hermes.edge/create v u "lovers")]
