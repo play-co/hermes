@@ -1,6 +1,6 @@
 (ns hermes.vertex
   (:import (com.tinkerpop.blueprints Vertex))
-  (:use [hermes.core :only (*graph*)]
+  (:use [hermes.core :only (*graph* transact!)]
         [hermes.util :only (immigrate)]))
 
 (immigrate 'hermes.element)
@@ -19,8 +19,17 @@
 (defn find-by-kv [k v]
   (set (.getVertices *graph* (name k) v)))
 
-(defn index-on [key]
-  (.createKeyIndex *graph* (name key) Vertex))
-
 (defn all []
   (.getVertices *graph*))
+
+(defn refresh [vertex]
+  (.getVertex *graph* vertex))
+
+(defn upsert! [k v m]
+  (if-let [vertex (transact! (first (find-by-kv k v)))]
+    (transact! (let [vertex (refresh vertex)
+                     v-map  (prop-map vertex)]
+                 ;;Avoids changing keys that shouldn't be changed. 
+                 (doseq [[prop val] m] (when (not= val (prop v-map))
+                                         (set-property! vertex prop val)))))
+    (transact! (create m))))

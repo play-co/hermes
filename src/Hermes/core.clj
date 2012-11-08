@@ -25,12 +25,12 @@
                                        (if (string? m)
                                          (TitanFactory/open m)
                                          (TitanFactory/open (convert-config-map m)))))))
-(defmacro transact [& forms]
+(defmacro transact! [& forms]
   `(try (let [tx#      (.startTransaction *graph*)
-              results# (binding [*graph* tx#] ~@forms)
-              _#       (.commit tx#)
-              end#     (.stopTransaction *graph* success-flag)]
-          results#)
-        (catch Exception e#
-          (.stopTransaction *graph* failure-flag)
-          (throw e#))))
+               results# (binding [*graph* tx#] ~@forms)
+               _#       (.commit tx#)
+               end#     (.stopTransaction *graph* success-flag)]
+           results#)
+         (catch Exception e#
+           (.stopTransaction *graph* failure-flag)
+           (throw e#))))

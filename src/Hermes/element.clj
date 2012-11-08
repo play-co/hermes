@@ -20,6 +20,7 @@
     (.getId this))
 
   (set-property! [this key value]
+    (.removeProperty this (name key)) ;;Hacky work around! Yuck! 
     (.setProperty this (name key) value))
   
   (get-property [this key]
