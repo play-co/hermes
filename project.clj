@@ -7,5 +7,4 @@
                  ["apache" "http://repository.apache.org/content/repositories/releases/"]] 
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [com.tinkerpop.blueprints/blueprints-core "2.1.0"]
-                 [com.thinkaurelius.titan/titan "0.1.0"]]
-  :main hermes.example)
+                 [com.thinkaurelius.titan/titan "0.1.0"]])
