@@ -48,9 +48,11 @@
        (.makePropertyKey type-maker))))
 
 (defn create-edge-label-once [name & args]
-  (when (not (get-type name))
+  (if-let [named-type (get-type name)]
+    named-type
     (apply create-edge-label (cons name args))))
 
 (defn create-vertex-key-once [name & args]
-  (when (not (get-type name))
+  (if-let [named-type (get-type name)]
+    named-type
     (apply create-vertex-key (cons name args))))

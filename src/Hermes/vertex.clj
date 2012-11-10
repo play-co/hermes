@@ -7,9 +7,11 @@
 
 (defn create
   ([] (create {}))
-  ([data] (let [vertex (.addVertex *graph*)
-                _      (doseq [[k v] data] (set-property! vertex (name k) v))]
-            vertex)))
+  ([data]  (let [vertex (.addVertex *graph*)
+                 _      (doseq [[k v] data]
+                          (set-property! vertex
+                                         (name k) v))]
+             vertex)))
 
 (defn get-by-id [& ids]
   (if (= 1 (count ids))
@@ -25,11 +27,12 @@
 (defn refresh [vertex]
   (.getVertex *graph* vertex))
 
-(defn upsert! [k v m]
-  (if-let [vertex (transact! (first (find-by-kv k v)))]
+(defn upsert! [k m]
+  (if-let [vertex (transact! (first (find-by-kv k (k m))))]
     (transact! (let [vertex (refresh vertex)
                      v-map  (prop-map vertex)]
                  ;;Avoids changing keys that shouldn't be changed. 
                  (doseq [[prop val] m] (when (not= val (prop v-map))
-                                         (set-property! vertex prop val)))))
+                                         (set-property! vertex prop val)))
+                 vertex))
     (transact! (create m))))
