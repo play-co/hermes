@@ -8,7 +8,8 @@
   (get-property [this key])
   (prop-map [this])
   (remove-property! [this key])
-  (set-property! [this key value]))
+  (set-property! [this key value])
+  (set-properties! [this data]))
 
 (extend-type Element
   HermesElement
@@ -23,6 +24,10 @@
     (.removeProperty this (name key)) ;;Hacky work around! Yuck! 
     (.setProperty this (name key) value))
   
+  (set-properties!  [this data]
+    (doseq [[k v] data] (set-property! this (name k) v))
+    this)
+
   (get-property [this key]
     (.getProperty this (name key)))
 
