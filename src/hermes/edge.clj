@@ -11,7 +11,7 @@
   [(.getVertex this)
    (.getOtherVertex this)])
 
-(defn connect
+(defn connect!
   ([u v label] (connect u v label {}))
   ([u v label data]
      (println u v label data)

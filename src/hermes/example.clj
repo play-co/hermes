@@ -29,15 +29,15 @@
                                   :gender "Male"
                                   :occupation "Stoner"})))
 
-;; (def edge0 (g/transact! (e/connect Zack Brooke "starter")))
+;; (def edge0 (g/transact! (e/connect! Zack Brooke "starter")))
 ;; (println "edge0" edge0)
-;; (def edge1 (g/transact! (e/connect Zack Brooke "sibling")))
+;; (def edge1 (g/transact! (e/connect! Zack Brooke "sibling")))
 ;; (println "edge1" edge1)
-(def edge2 (g/transact! (e/connect Mack Brooke "friend")))
+(def edge2 (g/transact! (e/connect! Mack Brooke "friend")))
 (println "edge2" edge2)
-;; (def edge3 (g/transact! (e/connect Zack Mack "bros")))
+;; (def edge3 (g/transact! (e/connect! Zack Mack "bros")))
 ;; (println "edge3" edge3)
-;;(def edge4 (g/transact! (e/connect Zack Mack friend)))
+;;(def edge4 (g/transact! (e/connect! Zack Mack friend)))
 ;;(println "edge4" (try edge4 (catch Exception e e)))
 
 ;; (def Cindy (v/create {:name "Cindy"
