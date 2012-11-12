@@ -25,6 +25,11 @@
                                        (if (string? m)
                                          (TitanFactory/open m)
                                          (TitanFactory/open (convert-config-map m)))))))
+(defmacro with-graph
+  [g & forms]
+  `(binding [*graph* ~g]
+     ~@forms))
+
 (defmacro transact! [& forms]
   `(try
      (let [tx#      (.startTransaction *graph*)
