@@ -33,9 +33,7 @@
        (.stopTransaction *graph* success-flag)
        results#)
      (catch Exception e#
-       (println e#)
        (.stopTransaction *graph* failure-flag)
-       (println "Stopped transaction")
        (throw e#))))
 
 (defmacro with-graph
