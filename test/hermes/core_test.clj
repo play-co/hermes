@@ -13,10 +13,9 @@
 
 (deftest test-opening-a-graph-with-hbase
   (testing "Stored graph"
-    (println "Make sure hbase is up and running locally. Be careful
-              with types! They don't get removed or rewritten ever.
-              The only thing you can is remove the database entirely
-              once you make a change to a type.")
+    (println "Make sure hbase is up and running locally.")
+    (println "Be careful with types! They don't get removed or rewritten ever. ")
+    (println "When you are doing the backed-by-hbase tests, always be on the look out.")
     (g/open {:storage {:backend "hbase"
                        :hostname "127.0.0.1"}})
     (is (= (type g/*graph*)
