@@ -27,7 +27,7 @@
 
 
 (defn create-edge-label
-  ([name] (create-edge-label {}))
+  ([name] (create-edge-label name {}))
   ([name {:keys [simple direction primary-key signature]
           :as m
           :or {simple false
