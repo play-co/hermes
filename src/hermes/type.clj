@@ -6,6 +6,9 @@
 (defn get-type [tname]
   (.getType *graph* (name tname)))
 
+;; The default type group when no group is specified during type construction.
+(def default-group (TypeGroup/DEFAULT_GROUP))
+
 ;; "A TitanGroup is defined with a name and an id, however, two groups with the
 ;; same id are considered equivalent. The name is only used for recognition
 ;; [and] is not persisted in the database. Group ids must be positive (>0) and
