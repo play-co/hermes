@@ -1,9 +1,21 @@
 (ns hermes.type
-  (:import (com.thinkaurelius.titan.core TypeGroup))
+  (:import (com.thinkaurelius.titan.core TypeGroup
+                                         TitanType))
   (:use [hermes.core :only (*graph*)]))
 
 (defn get-type [tname]
   (.getType *graph* (name tname)))
+
+;; The default type group when no group is specified during type construction.
+(def default-group (TypeGroup/DEFAULT_GROUP))
+
+;; "A TitanGroup is defined with a name and an id, however, two groups with the
+;; same id are considered equivalent. The name is only used for recognition
+;; [and] is not persisted in the database. Group ids must be positive (>0) and
+;; the maximum group id allowed is configurable."
+;; http://thinkaurelius.github.com/titan/javadoc/current/com/thinkaurelius/titan/core/TypeGroup.html
+(defn create-group [group-id group-name]
+  (TypeGroup/of group-id group-name))
 
 (defn create-type-maker [tname {:keys [functional f-locked group]
                                 :or   {functional  false
@@ -18,7 +30,7 @@
 
 
 (defn create-edge-label
-  ([name] (create-edge-label {}))
+  ([name] (create-edge-label name {}))
   ([name {:keys [simple direction primary-key signature]
           :as m
           :or {simple false
@@ -32,7 +44,7 @@
                "unidirected" (.unidirected type-maker)
                "undirected"  (.undirected type-maker))
            _ (when signature (.signature type-maker signature))
-           _ (when primary-key (.primaryKey type-maker primary-key))] 
+           _ (when primary-key (.primaryKey type-maker (into-array TitanType primary-key)))]
        (.makeEdgeLabel type-maker))))
 
 (defn create-vertex-key
