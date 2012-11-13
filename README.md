@@ -2,15 +2,17 @@
 
 # Hermes
 
-A Clojure library designed to make it easy to work with embedded [Titan](http://thinkaurelius.github.com/titan/) graphs. 
+A Clojure library designed to make it easy to work with embedded
+[Titan](http://thinkaurelius.github.com/titan/) graphs. Hermes is very
+much a work in progress. Titan is a young project and has yet to even
+hit 0.2. Hermes will probably always be a work in progress until Titan
+hits 1.0. So, use this in production at your own peril.
 
-Check [clojars](https://clojars.org/hermes) for the latest jar. The best thing to do is set up lein checkouts and clone the library directly. 
-
-This is very much a work in progress. Titan is a young project and has
-yet to even hit 0.2. Hermes will probably always be a work in progress
-until Titan hits 1.0. So, use this in production at your own peril.
-
-The best bet right now is to read the source code. We are still writing the docs and example projects. 
+Check [clojars](https://clojars.org/hermes) for the latest jar. The
+best thing to do is set up lein checkouts and clone the library
+directly for now. Reading the tests and source code should bring you
+up to speed with the library. We are still writing the docs and
+example projects.
 
 ## License
 
