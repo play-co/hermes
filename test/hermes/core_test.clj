@@ -27,3 +27,7 @@
       (is (= PersistStandardTitanVertex (type vertex))))))
 
 
+(deftest test-with-graph
+  (testing "with-graph macro"
+    (println "TODO: write with-graph macro test")
+    (= 0 0)))
