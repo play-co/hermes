@@ -47,8 +47,7 @@
 
 (deftest test-find-by-kv
   (g/open)
-  (println "TODO: Do in memory graphs have indexes?")
-  (t/create-vertex-key :age Long)
+  (t/create-vertex-key :age Long {:indexed true})
   (let [v1 (v/create! {:age  1
                       :name "A"})
         v2 (v/create! {:age 2
