@@ -22,6 +22,7 @@
           edge (first (e/upconnect! v1 v2 "connexion" {:name "the edge"}))]
       (is (e/connected? v1 v2))
       (is (e/connected? v1 v2 "connexion"))
+      (is (not (e/connected? v2 v1)))
       (is (= "the edge" (get-property edge :name)))
       (is (= 1 (count (seq (.getEdges g/*graph*)))))))
 
@@ -34,6 +35,7 @@
           edge (first (e/upconnect! v1 v2 "connexion"))]
       (is (e/connected? v1 v2))
       (is (e/connected? v1 v2 "connexion"))
+      (is (not (e/connected? v2 v1)))
       (is (= "the edge" (get-property edge :name)))
       (is (= 1 (count (seq (.getEdges g/*graph*))))))))
 
