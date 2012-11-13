@@ -5,6 +5,14 @@
 (defn get-type [tname]
   (.getType *graph* (name tname)))
 
+;; "A TitanGroup is defined with a name and an id, however, two groups with the
+;; same id are considered equivalent. The name is only used for recognition
+;; [and] is not persisted in the database. Group ids must be positive (>0) and
+;; the maximum group id allowed is configurable."
+;; http://thinkaurelius.github.com/titan/javadoc/current/com/thinkaurelius/titan/core/TypeGroup.html
+(defn create-group [group-id group-name]
+  (TypeGroup/of group-id group-name))
+
 (defn create-type-maker [tname {:keys [functional f-locked group]
                                 :or   {functional  false
                                        f-locked    false
