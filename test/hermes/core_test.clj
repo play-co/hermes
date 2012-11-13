@@ -18,7 +18,7 @@
               The only thing you can is remove the database entirely
               once you make a change to a type.")
     (g/open {:storage {:backend "hbase"
-                   :hostname "127.0.0.1"}})
+                       :hostname "127.0.0.1"}})
     (is (= (type g/*graph*)
            StandardTitanGraph))))
 
