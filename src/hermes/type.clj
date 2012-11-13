@@ -1,5 +1,6 @@
 (ns hermes.type
-  (:import (com.thinkaurelius.titan.core TypeGroup))
+  (:import (com.thinkaurelius.titan.core TypeGroup
+                                         TitanType))
   (:use [hermes.core :only (*graph*)]))
 
 (defn get-type [tname]
@@ -40,7 +41,7 @@
                "unidirected" (.unidirected type-maker)
                "undirected"  (.undirected type-maker))
            _ (when signature (.signature type-maker signature))
-           _ (when primary-key (.primaryKey type-maker primary-key))] 
+           _ (when primary-key (.primaryKey type-maker (into-array TitanType primary-key)))]
        (.makeEdgeLabel type-maker))))
 
 (defn create-vertex-key
