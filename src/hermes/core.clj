@@ -1,9 +1,7 @@
 (ns hermes.core
   (:import (com.thinkaurelius.titan.core TitanFactory)
            (com.tinkerpop.blueprints Element TransactionalGraph TransactionalGraph$Conclusion)
-           (org.apache.commons.configuration BaseConfiguration))
-  (:use hermes.reflect))
-
+           (org.apache.commons.configuration BaseConfiguration)))
 
 (def ^{:dynamic true} *graph*)
 
