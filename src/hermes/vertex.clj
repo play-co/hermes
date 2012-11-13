@@ -32,7 +32,6 @@
    value pair to have the new properties specifiied by the map. Always
    returns the set of vertices that were just update or created."
   (let [vertices (transact! (find-by-kv (name k) (k m)))]
-    (println vertices)
     (if (empty? vertices)
       (transact! (set [(create! m)]))
       (transact! (let [r-vertices (map refresh vertices)]
