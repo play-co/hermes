@@ -1,46 +1,53 @@
 (ns hermes.edge
-  (:import (com.tinkerpop.blueprints Edge))
+  (:import (com.tinkerpop.blueprints Edge Direction))
   (:require [hermes.vertex :as v]
-            [hermes.type   :as t])
-  (:use [hermes.core :only (*graph*)]
+            [hermes.type   :as t]
+            [clj-gremlin.core   :as gremlin])
+  (:use [hermes.core :only (*graph* transact!)]
         [hermes.util :only (immigrate)]))
 
 (immigrate 'hermes.element)
 
 (defn endpoints [this]
-  [(.getVertex this)
-   (.getOtherVertex this)])
+  [(.getVertex this Direction/OUT)
+   (.getVertex this Direction/IN)])
 
-(defn connect
-  ([u v label] (connect u v label {}))
+(defn refresh [edge]
+  (.getEdge edge))
+
+(defn connect!
+  ([u v label] (connect! u v label {}))
   ([u v label data]
-     (println u v label data)
      (let [edge (.addEdge *graph* (v/refresh u) (v/refresh v) label)]
-       (doseq [[k v] data] (set-property! edge (name k) v))
+       (set-properties! edge data)
        edge)))
 
-;;Try to put the lesser degree connected node first, otherwise
-;;supernodes will bust the ids and if statement.
-(defn connected?
-  ([u v] (connected? u v nil))  
+(defn edges-between
+  ([u v] (edges-between u v nil))
   ([u v label]
-     (if-let [edges (seq (.. u
-                             query
-                             (labels (into-array String (if label [label] [])))
-                             titanEdges))]
-       (map endpoints edges)
-       nil)))
-       ;; (if ((set (map v/get-id ids))
-       ;;      (v/get-id v))
-       ;;   true
-       ;;   false)
-       ;; fales)))
+    (letfn [(label-filter [g] (if label (gremlin/outE g label) (gremlin/outE g)))]
+      (if-let [edges
+                ; This awesome query was provided by Marko himselt at
+                ; See https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
+                (seq (-> *graph*
+                  (gremlin/v (.getId u))
+                  (label-filter)
+                  (gremlin/inV)
+                  (gremlin/has "id" (.getId v))
+                  (gremlin/back 2)))]
+         edges
+         nil))))
+
+(defn connected?
+  ([u v] (connected? u v nil))
+  ([u v label] (boolean (edges-between u v label))))
 
 (defn upconnect!
   ([u v label] (upconnect! u v label {}))
   ([u v label data]
-     (if (connected? u v label)
-       true
-       false
-       )
-     ))
+    (transact!
+      (let [fresh-u (v/refresh u)
+            fresh-v (v/refresh v)]
+        (if-let [edges (edges-between fresh-u fresh-v label)]
+          edges
+          #{(connect! u v label data)})))))
