@@ -17,7 +17,7 @@
     (open)
     (t/create-vertex-key :my-key Integer)
     ;; Get the key from the graph
-    (let [k (.getType *graph* "my-key")]
+    (let [k (t/get-type :my-key)]
       (is (.isPropertyKey k) "the key is a property key")
       (is (not (.isEdgeLabel k)) "the key is not an edge label")
       (is (= "my-key" (.getName k)) "the key has the correct name")
@@ -32,7 +32,7 @@
                :indexed true
                :unique true})
     ;; Get the key from the graph
-    (let [k (.getType *graph* "my-key")]
+    (let [k (t/get-type :my-key)]
       (is (.isPropertyKey k) "the key is a property key")
       (is (not (.isEdgeLabel k)) "the key is not an edge label")
       (is (= "my-key" (.getName k)) "the key has the correct name")
@@ -45,7 +45,7 @@
     (open)
     (t/create-edge-label :my-label)
     ;; Get the label from the graph
-    (let [lab (.getType *graph* "my-label")]
+    (let [lab (t/get-type :my-label)]
       (is (.isEdgeLabel lab) "the label is an edge label")
       (is (not (.isPropertyKey lab)) "the label is not a property key")
       (is (= "my-label" (.getName lab)) "the label has the correct name")
@@ -62,7 +62,7 @@
                         :simple true
                         :direction "undirected"})
     ;; Get the label from the graph
-    (let [lab (.getType *graph* "my-label")]
+    (let [lab (t/get-type :my-label)]
       (is (.isEdgeLabel lab) "the label is an edge label")
       (is (not (.isPropertyKey lab)) "the label is not a property key")
       (is (= "my-label" (.getName lab)) "the label has the correct name")
