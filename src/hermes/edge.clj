@@ -21,29 +21,27 @@
        (set-properties! edge data)
        edge)))
 
-;;Try to put the lesser degree connected node first, otherwise
-;;supernodes will bust the ids and if statement.
-(defn connected?
-  ([u v] (connected? u v nil))  
+(defn edges-between
+  ([u v] (edges-between u v nil))
   ([u v label]
-     (if-let [edges (seq (.. u
-                             query
-                             (labels (into-array String (if label [label] [])))
-                             titanEdges))]
+    (if-let [edges (seq (.. u
+                           query
+                           (labels (into-array String (if label [label] [])))
+                           (has "id" (.getId v))
+                           titanEdges))]
        edges
        nil)))
-       ;; (if ((set (map v/get-id ids))
-       ;;      (v/get-id v))
-       ;;   true
-       ;;   false)
-       ;; fales)))
+
+(defn connected?
+  ([u v] (connected? u v nil))
+  ([u v label] (boolean (edges-between u v label))))
 
 (defn upconnect!
   ([u v label] (upconnect! u v label {}))
   ([u v label data]
-   (transact!
-     (let [fresh-u (v/refresh u)
-           fresh-v (v/refresh v)]
-       (if-let [edges (connected? fresh-u fresh-v label)]
-         edges
-         #{(connect! u v label data)})))))
+    (transact!
+      (let [fresh-u (v/refresh u)
+            fresh-v (v/refresh v)]
+        (if-let [edges (edges-between fresh-u fresh-v label)]
+          edges
+          #{(connect! u v label data)})))))
