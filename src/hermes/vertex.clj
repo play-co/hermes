@@ -7,11 +7,8 @@
 
 (defn create
   ([] (create {}))
-  ([data]  (let [vertex (.addVertex *graph*)
-                 _      (doseq [[k v] data]
-                          (set-property! vertex
-                                         (name k) v))]
-             vertex)))
+  ([data]
+     (set-properties! (.addVertex *graph*) data)))
 
 (defn get-by-id [& ids]
   (if (= 1 (count ids))
