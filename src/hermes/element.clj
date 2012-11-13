@@ -21,8 +21,12 @@
     (.getId this))
 
   (set-property! [this key value]
-    (.removeProperty this (name key)) ;;Hacky work around! Yuck! 
-    (.setProperty this (name key) value))
+    ;;Avoids changing keys that shouldn't be changed.
+    ;;Important when using types. You aren't ever going to change a
+    ;;user's id for example. 
+    (when (not= value (get-property this (name key)))
+      (.removeProperty this (name key)) ;;Hacky work around! Yuck!
+      (.setProperty this (name key) value)))
   
   (set-properties!  [this data]
     (doseq [[k v] data] (set-property! this (name k) v))
@@ -35,9 +39,10 @@
     (.removeProperty this (name key)))
   
   (prop-map [this]
-    (into {:id (get-id this)} (map
-              #(vector (keyword %1) (get-property this %1))
-              (get-keys this)))))
+    (into {:id (get-id this)}
+          (map
+           #(vector (keyword %1) (get-property this %1))              
+           (get-keys this)))))
 
 ;; There is a way of doing this that involves reify or proxy that
 ;; would make (:name (v/create {:name "Zack"})) work. 

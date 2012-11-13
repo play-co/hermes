@@ -29,10 +29,5 @@
 
 (defn upsert! [k m]
   (if-let [vertex (transact! (first (find-by-kv k (k m))))]
-    (transact! (let [vertex (refresh vertex)
-                     v-map  (prop-map vertex)]
-                 ;;Avoids changing keys that shouldn't be changed. 
-                 (doseq [[prop val] m] (when (not= val (prop v-map))
-                                         (set-property! vertex prop val)))
-                 vertex))
+    (transact! (set-properties! vertex m))
     (transact! (create m))))
