@@ -2,8 +2,7 @@
   (:require [hermes.core   :as g]
             [hermes.vertex :as v]
             [hermes.edge   :as e]
-            [hermes.type   :as t])
-  (:use hermes.query))
+            [hermes.type   :as t]))
 
 (g/open {:storage {:backend "hbase"
                    :hostname "127.0.0.1"}})
