@@ -59,12 +59,14 @@
     (let [v1 (v/create {:name "v1"})
           v2 (v/create {:name "v2"})
           edge (first (e/upconnect! v1 v2 "connexion" {:name "the edge"}))
-          edge (first (e/upconnect! v1 v2 "connexion" {:name "the edge"}))
-          edge (first (e/upconnect! v1 v2 "connexion"))]
+          edge (first (e/upconnect! v1 v2 "connexion" {:a 1 :b 2}))
+          edge (first (e/upconnect! v1 v2 "connexion" {:b 0}))]
       (is (e/connected? v1 v2))
       (is (e/connected? v1 v2 "connexion"))
       (is (not (e/connected? v2 v1)))
       (is (= "the edge" (e/get-property edge :name)))
+      (is (= 1 (e/get-property edge :a)))
+      (is (= 0 (e/get-property edge :b)))
       (is (= 1 (count (seq (.getEdges g/*graph*))))))))
 
 
