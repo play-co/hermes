@@ -11,12 +11,12 @@
 (def failure-flag TransactionalGraph$Conclusion/FAILURE)
 
 (defn convert-config-map [m]
-  (let [conf (BaseConfiguration.)        
-        _ (doseq [[k1 v1] m]
+  (let [conf (BaseConfiguration.)]
+    (doseq [[k1 v1] m]
             (if (string? v1)
               (.setProperty conf (name k1) v1)
               (doseq [[k2 v2] v1]
-                (.setProperty conf (str (name k1) "." (name k2)) v2))))]
+                (.setProperty conf (str (name k1) "." (name k2)) v2))))
     conf))
 
 (defn open
