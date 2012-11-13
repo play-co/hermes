@@ -22,6 +22,8 @@ namespace."
           (intern *ns* sym (var-get v)) 
           (intern *ns* sym))))))
 
+;;A few methods that are useful for debugging at the repl. Hopefully,
+;;this will only be used for development purposes.
 (defn members-of-object [object]
   (-> object r/reflect :members))
 
