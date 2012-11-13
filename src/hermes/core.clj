@@ -37,3 +37,8 @@
        (.stopTransaction *graph* failure-flag)
        (println "Stopped transaction")
        (throw e#))))
+
+(defmacro with-graph
+  [g & forms]
+  `(binding [*graph* ~g]
+     ~@forms))
