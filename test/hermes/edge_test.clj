@@ -1,14 +1,13 @@
 (ns hermes.edge-test
-  (:use [clojure.test]
-        [hermes.util :only [immigrate]])
+  (:use [clojure.test])
   (:require [hermes.core :as g]
             [hermes.edge :as e]
             [hermes.vertex :as v]))
 
 (deftest test-simple-property-mutation
   (g/open)
-  (let [v1 (v/create {:name "v1"})
-        v2 (v/create {:name "v2"})
+  (let [v1 (v/create! {:name "v1"})
+        v2 (v/create! {:name "v2"})
         edge (e/connect! v1 v2 "test" {:a 1})]
     (e/set-property! edge :b 2)
     (e/remove-property! edge :a)
@@ -17,8 +16,8 @@
 
 (deftest test-multiple-property-mutation
   (g/open)
-  (let [v1 (v/create {:name "v1"})
-        v2 (v/create {:name "v2"})
+  (let [v1 (v/create! {:name "v1"})
+        v2 (v/create! {:name "v2"})
         edge (e/connect! v1 v2 "test" {:a 0})]
     (e/set-properties! edge {:a 1 :b 2 :c 3})
     (is (= 1 (e/get-property edge :a)))
@@ -27,26 +26,24 @@
 
 (deftest test-property-map
   (g/open)
-  (let [v1 (v/create {:name "v1"})
-        v2 (v/create {:name "v2"})
+  (let [v1 (v/create! {:name "v1"})
+        v2 (v/create! {:name "v2"})
         edge (e/connect! v1 v2 "test" {:a 1 :b 2 :c 3})
         prop-map (e/prop-map edge)]
-    (is (= 1 (prop-map :a)))
-    (is (= 2 (prop-map :b)))
-    (is (= 3 (prop-map :c)))))
+    (is (= {:a 1 :b 2 :c 3} (dissoc prop-map :id)))))
 
 (deftest test-endpoints
   (g/open)
-  (let [v1 (v/create {:name "v1"})
-        v2 (v/create {:name "v2"})
+  (let [v1 (v/create! {:name "v1"})
+        v2 (v/create! {:name "v2"})
         edge (first (e/upconnect! v1 v2 "connexion"))]
     (is (= ["v1" "v2"] (map #(e/get-property % :name) (e/endpoints edge))))))
 
 (deftest test-upconnect!
   (testing "Upconnecting once"
     (g/open)
-    (let [v1 (v/create {:name "v1"})
-          v2 (v/create {:name "v2"})
+    (let [v1 (v/create! {:name "v1"})
+          v2 (v/create! {:name "v2"})
           edge (first (e/upconnect! v1 v2 "connexion" {:name "the edge"}))]
       (is (e/connected? v1 v2))
       (is (e/connected? v1 v2 "connexion"))
@@ -56,8 +53,8 @@
 
   (testing "Upconnecting multiple times"
     (g/open)
-    (let [v1 (v/create {:name "v1"})
-          v2 (v/create {:name "v2"})
+    (let [v1 (v/create! {:name "v1"})
+          v2 (v/create! {:name "v2"})
           edge (first (e/upconnect! v1 v2 "connexion" {:name "the edge"}))
           edge (first (e/upconnect! v1 v2 "connexion" {:a 1 :b 2}))
           edge (first (e/upconnect! v1 v2 "connexion" {:b 0}))]
