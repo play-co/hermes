@@ -26,24 +26,25 @@
   (g/open conf)
   (g/transact! (t/create-vertex-key-once :first-name String {:indexed true})
                (t/create-vertex-key-once :last-name  String {:indexed true}))  
-  (let [v1-a (v/upsert! :first-name
-                        {:first-name "Zack"
-                         :last-name "Maril"
-                         :test 0})
-        v1-b (v/upsert! :first-name
-                        {:first-name "Zack"
-                         :last-name "Maril"
-                         :test 1})
-        v2   (v/upsert! :first-name
-                        {:first-name "Brooke"
-                         :last-name "Maril"})]
-    (is (= 1
-           (v/get-property (v/refresh (first v1-a)) :test)
-           (v/get-property (v/refresh (first v1-b)) :test)))
+  (g/transact!
+    (let [v1-a (v/upsert! :first-name
+                          {:first-name "Zack"
+                           :last-name "Maril"
+                           :test 0})
+          v1-b (v/upsert! :first-name
+                          {:first-name "Zack"
+                           :last-name "Maril"
+                           :test 1})
+          v2   (v/upsert! :first-name
+                          {:first-name "Brooke"
+                           :last-name "Maril"})]
+      (is (= 1
+             (v/get-property (v/refresh (first v1-a)) :test)
+             (v/get-property (v/refresh (first v1-b)) :test)))
 
-    (v/upsert! :last-name {:last-name "Maril"
-                           :heritage "Some German Folks"})
-    (is (= "Some German Folks"
-           (v/get-property (v/refresh (first v1-a)) :heritage)
-           (v/get-property (v/refresh (first v1-b)) :heritage)
-           (v/get-property (v/refresh (first v2)) :heritage)))))
+      (v/upsert! :last-name {:last-name "Maril"
+                             :heritage "Some German Folks"})
+      (is (= "Some German Folks"
+             (v/get-property (v/refresh (first v1-a)) :heritage)
+             (v/get-property (v/refresh (first v1-b)) :heritage)
+             (v/get-property (v/refresh (first v2)) :heritage))))))
