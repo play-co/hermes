@@ -8,9 +8,6 @@
 
 (def ^{:dynamic true} *graph*)
 
-(def success-flag TransactionalGraph$Conclusion/SUCCESS)
-(def failure-flag TransactionalGraph$Conclusion/FAILURE)
-
 (defn convert-config-map [m]
   (let [conf (BaseConfiguration.)]
     (doseq [[k1 v1] m]
@@ -26,16 +23,36 @@
                                        (if (string? m)
                                          (TitanFactory/open m)
                                          (TitanFactory/open (convert-config-map m)))))))
+
+(defn- stop-transaction
+  [success?]
+  (let [success-flag TransactionalGraph$Conclusion/SUCCESS
+        failure-flag TransactionalGraph$Conclusion/FAILURE]
+        (.stopTransaction *graph* (if success? success-flag failure-flag))))
+
+(defn- supports-transactions?
+  []
+  (-> *graph*
+      .getFeatures
+      .toMap
+      (.get "supportsTransactions")))
+
+(defn- transact!* [f]
+  (if (supports-transactions?)
+    (try
+      (let [tx      (.startTransaction *graph*)
+            results (binding [*graph* tx] (f))]
+        (.commit tx)
+        (stop-transaction true)
+        results)
+      (catch Exception e
+        (stop-transaction false)
+        (throw e)))
+    ; Transactions not supported.
+    (f)))
+
 (defmacro transact! [& forms]
-  `(try
-     (let [tx#      (.startTransaction *graph*)
-           results# (binding [*graph* tx#] ~@forms)]
-       (.commit tx#)
-       (.stopTransaction *graph* success-flag)
-       results#)
-     (catch Exception e#
-       (.stopTransaction *graph* failure-flag)
-       (throw e#))))
+  `(~transact!* (fn [] ~@forms)))
 
 (defmacro with-graph
   [g & forms]
