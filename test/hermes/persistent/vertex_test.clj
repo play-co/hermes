@@ -9,23 +9,22 @@
 
 (deftest test-find-by-kv-backed-by-hbase
   (g/open conf)
-  (g/transact! (t/create-vertex-key-once :age Long {:indexed true}))
-  (g/transact!
-   (let [v1 (v/create! {:age  1
-                        :name "A"})
-         v2 (v/create! {:age 2
-                        :name "B"})
-         v3 (v/create! {:age 2
-                        :name "C"})]
-     (is (= #{"A"}
-            (set (map #(v/get-property % :name) (v/find-by-kv :age 1)))))
-     (is (= #{"B" "C"}
-            (set (map #(v/get-property % :name) (v/find-by-kv :age 2))))))))
+  (t/create-vertex-key-once :age Long {:indexed true})
+  (let [v1 (v/create! {:age  1
+                       :name "A"})
+        v2 (v/create! {:age 2
+                       :name "B"})
+        v3 (v/create! {:age 2
+                       :name "C"})]
+    (is (= #{"A"}
+           (set (map #(v/get-property % :name) (v/find-by-kv :age 1)))))
+    (is (= #{"B" "C"}
+           (set (map #(v/get-property % :name) (v/find-by-kv :age 2)))))))
 
 (deftest test-upsert!-backed-by-hbase
   (g/open conf)
-  (g/transact! (t/create-vertex-key-once :first-name String {:indexed true})
-               (t/create-vertex-key-once :last-name  String {:indexed true}))  
+  (t/create-vertex-key-once :first-name String {:indexed true})
+  (t/create-vertex-key-once :last-name  String {:indexed true})
   (let [v1-a (v/upsert! :first-name
                         {:first-name "Zack"
                          :last-name "Maril"
