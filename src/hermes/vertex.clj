@@ -31,9 +31,9 @@
    with that property map or updates all nodes with the given key
    value pair to have the new properties specifiied by the map. Always
    returns the set of vertices that were just update or created."
-  (let [vertices (transact! (find-by-kv (name k) (k m)))]
-    (if (empty? vertices)
-      (transact! (set [(create! m)]))
-      (transact! (let [r-vertices (map refresh vertices)]
-                   (doseq [vertex r-vertices] (set-properties! vertex m))
-                   r-vertices)))))
+   (let [vertices (find-by-kv (name k) (k m))]
+     (if (empty? vertices)
+       (set [(create! m)])
+       (let [r-vertices (map refresh vertices)]
+         (doseq [vertex r-vertices] (set-properties! vertex m))
+         r-vertices))))

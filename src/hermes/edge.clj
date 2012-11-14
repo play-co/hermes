@@ -56,11 +56,10 @@
    edge is created with the given data."
   ([u v label] (upconnect! u v label {}))
   ([u v label data]
-    (transact!
       (let [fresh-u (v/refresh u)
             fresh-v (v/refresh v)]
         (if-let [edges (edges-between fresh-u fresh-v label)]
           (do
             (doseq [edge edges] (set-properties! edge data))
             edges)
-          #{(connect! u v label data)})))))
+          #{(connect! u v label data)}))))
