@@ -24,12 +24,6 @@
                                          (TitanFactory/open m)
                                          (TitanFactory/open (convert-config-map m)))))))
 
-(defn- stop-transaction
-  [success?]
-  (let [success-flag TransactionalGraph$Conclusion/SUCCESS
-        failure-flag TransactionalGraph$Conclusion/FAILURE]
-        (.stopTransaction *graph* (if success? success-flag failure-flag))))
-
 (defn- supports-transactions?
   []
   (-> *graph*
@@ -43,10 +37,10 @@
       (let [tx      (.startTransaction *graph*)
             results (binding [*graph* tx] (f))]
         (.commit tx)
-        (stop-transaction true)
+        (.stopTransaction *graph* TransactionalGraph$Conclusion/SUCCESS)
         results)
       (catch Exception e
-        (stop-transaction false)
+        (.stopTransaction *graph* TransactionalGraph$Conclusion/FAILURE)
         (throw e)))
     ; Transactions not supported.
     (f)))
