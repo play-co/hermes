@@ -34,6 +34,6 @@
    (let [vertices (find-by-kv (name k) (k m))]
      (if (empty? vertices)
        (set [(create! m)])
-       (let [r-vertices (map refresh vertices)]
-         (doseq [vertex r-vertices] (set-properties! vertex m))
-         r-vertices))))
+       (do
+         (doseq [vertex vertices] (set-properties! vertex m))
+         vertices))))

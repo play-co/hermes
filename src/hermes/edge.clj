@@ -29,18 +29,18 @@
   "Returns a set of the edges between two vertices."
   ([u v] (edges-between u v nil))
   ([u v label]
-    (letfn [(label-filter [g] (if label (gremlin/outE g label) (gremlin/outE g)))]
-      (if-let [edges
-                ; This awesome query was provided by Marko himselt at
-                ; See https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
-                (seq (-> *graph*
-                  (gremlin/v (.getId u))
-                  (label-filter)
-                  (gremlin/inV)
-                  (gremlin/has "id" (.getId v))
-                  (gremlin/back 2)))]
+    (if-let [edges
+              ; Source for this edge query:
+              ; https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
+              (seq (-> *graph*
+                (gremlin/v (.getId u))
+                ; (gremlin/outV label) throws a NPE when label is nil, hence this:
+                (#(if label (gremlin/outE % label) (gremlin/outE %)))
+                (gremlin/inV)
+                (gremlin/has "id" (.getId v))
+                (gremlin/back 2)))]
          edges
-         nil))))
+         nil)))
 
 (defn connected?
   "Returns whether or not two vertices are connected. Optional third
@@ -56,10 +56,8 @@
    edge is created with the given data."
   ([u v label] (upconnect! u v label {}))
   ([u v label data]
-      (let [fresh-u (v/refresh u)
-            fresh-v (v/refresh v)]
-        (if-let [edges (edges-between fresh-u fresh-v label)]
-          (do
-            (doseq [edge edges] (set-properties! edge data))
-            edges)
-          #{(connect! u v label data)}))))
+    (if-let [edges (edges-between u v label)]
+      (do
+        (doseq [edge edges] (set-properties! edge data))
+        edges)
+      #{(connect! u v label data)})))
