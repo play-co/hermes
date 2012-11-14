@@ -11,22 +11,24 @@
 (g/transact! (t/create-vertex-key-once :name String {:unique true
                                                      :indexed true}))
 
-(def Zack (g/transact! (v/create! {:name "Zack"
-                                   :age 21
-                                   :gender "Male"
-                                   :occupation "INTERN"})))
+(def Zack (g/transact! (first (v/upsert! :name
+                                         {:name "Zack"
+                                          :age 21
+                                          :gender "Male"
+                                          :occupation "INTERN"}))))
 
-(def Brooke (g/transact! (v/create! {:name "Brooke"
-                                    :age 19
-                                    :gender "Female"
-                                    :occupation "Student"})))
+(def Brooke (g/transact! (first (v/upsert! :name
+                                           {:name "Brooke"
+                                            :age 19
+                                            :gender "Female"
+                                            :occupation "Student"}))))
 
 (g/transact! (e/connect! (v/refresh Zack)
-                       (v/refresh Brooke)
-                       "siblings" {:since 1991}))
+                         (v/refresh Brooke)
+                         "siblings" {:since 1991}))
 
 ;;Oops mistake, should probably fix that
-(g/transact! (e/upconnect! (v/find-by-kv :name "Zack")
+(g/transact! (e/upconnect! (first (v/find-by-kv :name "Zack"))
                            (v/refresh Brooke)
                            "siblings" {:since 1993}))
 
@@ -35,4 +37,8 @@
                                :occupation "Software specialist and all around nice guy"}))
 
 (defn -main [& args]
-  ["Hello World!" (println (v/refresh Zack) (v/refresh Brooke))])
+  ["Hello World!"
+   (g/transact! (doall (for [vertex [Zack Brooke]]
+                         (-> vertex
+                             v/refresh
+                             v/prop-map) )))])
