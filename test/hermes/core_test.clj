@@ -1,35 +1,7 @@
 (ns hermes.core-test
-  (:use clojure.test)
-  (:require [hermes.core :as g])
-  (:import  (com.thinkaurelius.titan.graphdb.blueprints TitanInMemoryBlueprintsGraph)
-            (com.thinkaurelius.titan.graphdb.database   StandardTitanGraph)
-            (com.thinkaurelius.titan.graphdb.vertices   PersistStandardTitanVertex)))
-
-(deftest test-opening-a-graph-in-memory
-  (testing "Graph in memory"
-    (g/open)
-    (is (= (type g/*graph*)
-           TitanInMemoryBlueprintsGraph))))
-
-(deftest test-opening-a-graph-with-hbase
-  (testing "Stored graph"
-    (println "Make sure hbase is up and running locally.")
-    (println "Be careful with types! They don't get removed or rewritten ever. ")
-    (println "When you are doing the backed-by-hbase tests, always be on the look out.")
-    (g/open {:storage {:backend "hbase"
-                       :hostname "127.0.0.1"}})
-    (is (= (type g/*graph*)
-           StandardTitanGraph))))
-
-(deftest test-simple-transaction
-  (testing "Stored graph"
-    (g/open {:storage {:backend "hbase"
-                       :hostname "127.0.0.1"}})
-    (let [vertex (g/transact! (.addVertex g/*graph*))]      
-      (is (= PersistStandardTitanVertex (type vertex))))))
-
-
-(deftest test-with-graph
-  (testing "with-graph macro"
-    (println "TODO: write with-graph macro test")
-    (= 0 0)))
+  (:require  [hermes.memory.core-test :as memory-core]
+             [hermes.memory.type-test :as memory-type]
+             [hermes.memory.vertex-test :as memory-vertex]
+             [hermes.memory.edge-test :as memory-edge]
+             [hermes.persistent.core-test :as persistent-core]
+             [hermes.persistent.vertex-test :as persistent-vertex]))

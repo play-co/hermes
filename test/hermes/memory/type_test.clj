@@ -1,4 +1,4 @@
-(ns hermes.type-test
+(ns hermes.memory.type-test
   (:use [clojure.test]
         [hermes.core :only (open *graph*)])
   (:require [hermes.type :as t]))

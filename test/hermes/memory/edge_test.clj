@@ -1,4 +1,4 @@
-(ns hermes.edge-test
+(ns hermes.memory.edge-test
   (:use [clojure.test])
   (:require [hermes.core :as g]
             [hermes.edge :as e]
