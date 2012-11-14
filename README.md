@@ -43,10 +43,10 @@ example projects.
                                     :gender "Female"
                                     :occupation "Student"})))
 
-(g/transact! (connect! Zack Brook "siblings" {:since 1991}))
+(g/transact! (connect! (v/refresh Zack) (v/refresh Brooke) "siblings" {:since 1991}))
 
 ;;Oops mistake, should probably fix that
-(g/transact! (upconnect! Zack Brook "siblings" {:since 1993}))
+(g/transact! (upconnect! (v/find-by-kv :name "Zack") (v/refresh Brooke) "siblings" {:since 1993}))
 
 ;;And well, I am really more than just an intern
 (g/transact! (upsert! :name {:name "Zack"
