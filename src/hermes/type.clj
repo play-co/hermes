@@ -1,9 +1,10 @@
 (ns hermes.type
   (:import (com.thinkaurelius.titan.core TypeGroup
                                          TitanType))
-  (:use [hermes.core :only (*graph*)]))
+  (:use [hermes.core :only (*graph* ensure-graph-is-transaction-safe)]))
 
 (defn get-type [tname]
+  (ensure-graph-is-transaction-safe)
   (.getType *graph* (name tname)))
 
 ;; The default type group when no group is specified during type construction.
@@ -11,6 +12,7 @@
 
 (defn create-group [group-id group-name]
    "Create a TitanGroup. \"A TitanGroup is defined with a name and an id, however, two groups with thesame id are considered equivalent. The name is only used for recognition and is not persisted in the database. Group ids must be positive (>0) and the maximum group id allowed is configurable.\"-http://thinkaurelius.github.com/titan/javadoc/current/com/thinkaurelius/titan/core/TypeGroup.html"
+  (ensure-graph-is-transaction-safe)
   (TypeGroup/of group-id group-name))
 
 (defn- create-type-maker
@@ -19,6 +21,7 @@
           :or   {functional  false
                  f-locked    false
                  group       default-group}}]
+  (ensure-graph-is-transaction-safe)
   (let [type-maker   (.. *graph*
                          makeType
                          (name (name tname))

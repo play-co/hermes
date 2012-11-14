@@ -1,6 +1,9 @@
 (ns hermes.core
   (:import (com.thinkaurelius.titan.core TitanFactory)
            (com.tinkerpop.blueprints Element TransactionalGraph TransactionalGraph$Conclusion)
+           (com.thinkaurelius.titan.graphdb.database StandardTitanGraph)
+           (com.thinkaurelius.titan.graphdb.blueprints TitanInMemoryBlueprintsGraph)
+           (com.thinkaurelius.titan.graphdb.transaction StandardPersistTitanTx)
            (org.apache.commons.configuration BaseConfiguration)))
 
 (def ^{:dynamic true} *graph*)
@@ -38,3 +41,9 @@
   [g & forms]
   `(binding [*graph* ~g]
      ~@forms))
+
+(defn ensure-graph-is-transaction-safe []
+  (when (not (#{StandardPersistTitanTx TitanInMemoryBlueprintsGraph}
+              (type *graph*)))
+    ;;TODO: Not a great error message. Could be better.
+    (throw (Throwable. "All actions on a persistent graph must be wrapped in transact! "))))

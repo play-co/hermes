@@ -3,24 +3,27 @@
   (:require [hermes.vertex :as v]
             [hermes.type   :as t]
             [clj-gremlin.core   :as gremlin])
-  (:use [hermes.core :only (*graph* transact!)]
+  (:use [hermes.core :only (*graph* transact! ensure-graph-is-transaction-safe)]
         [hermes.util :only (immigrate)]))
 
 (immigrate 'hermes.element)
 
 (defn endpoints [this]
   "Returns the endpoints of the edge in array with the order [starting-node,ending-node]."
+  (ensure-graph-is-transaction-safe)
   [(.getVertex this Direction/OUT)
    (.getVertex this Direction/IN)])
 
 (defn refresh [edge]
   "Goes and grabs the edge from the graph again. Useful for \"refreshing\" stale edges."
-  (.getEdge edge))
+  (ensure-graph-is-transaction-safe)
+  (.getEdge *graph* edge))
 
 (defn connect!
   "Connects two vertices with the given label, and, optionally, with the given properties."
   ([u v label] (connect! u v label {}))
   ([u v label data]
+     (ensure-graph-is-transaction-safe)
      (let [edge (.addEdge *graph* (v/refresh u) (v/refresh v) label)]
        (set-properties! edge data)
        edge)))
@@ -29,6 +32,7 @@
   "Returns a set of the edges between two vertices."
   ([u v] (edges-between u v nil))
   ([u v label]
+    (ensure-graph-is-transaction-safe)
     (if-let [edges
               ; Source for this edge query:
               ; https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
@@ -45,8 +49,10 @@
 (defn connected?
   "Returns whether or not two vertices are connected. Optional third
    arguement specifying the label of the edge."
-  ([u v] (connected? u v nil))
-  ([u v label] (boolean (edges-between u v label))))
+  ([u v] (connected? u v nil))  
+  ([u v label]
+     (ensure-graph-is-transaction-safe)
+     (boolean (edges-between u v label))))
 
 
 (defn upconnect!
@@ -56,8 +62,9 @@
    edge is created with the given data."
   ([u v label] (upconnect! u v label {}))
   ([u v label data]
-    (if-let [edges (edges-between u v label)]
-      (do
-        (doseq [edge edges] (set-properties! edge data))
-        edges)
-      #{(connect! u v label data)})))
+     (ensure-graph-is-transaction-safe)
+     (if-let [edges (edges-between u v label)]
+       (do
+         (doseq [edge edges] (set-properties! edge data))
+         edges)
+       #{(connect! u v label data)})))

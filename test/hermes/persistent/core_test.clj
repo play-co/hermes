@@ -1,6 +1,7 @@
 (ns hermes.persistent.core-test
   (:use clojure.test)
-  (:require [hermes.core :as g])
+  (:require [hermes.core :as g]
+            [hermes.vertex :as v])
   (:use [hermes.persistent.conf :only (conf)])
   (:import  (com.thinkaurelius.titan.graphdb.blueprints TitanInMemoryBlueprintsGraph)
             (com.thinkaurelius.titan.graphdb.database   StandardTitanGraph)
@@ -20,4 +21,9 @@
     (g/open conf)
     (let [vertex (g/transact! (.addVertex g/*graph*))]      
       (is (= PersistStandardTitanVertex (type vertex))))))
+
+(deftest test-transaction-ensuring
+  (testing "Stored graph"
+    (g/open conf)
+    (is (thrown? Throwable #"transact!" (v/create!)))))
 
