@@ -30,12 +30,12 @@
   ([u v] (edges-between u v nil))
   ([u v label]
     (if-let [edges
-              ; See https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
+              ; Source for this edge query:
+              ; https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
               (seq (-> *graph*
                 (gremlin/v (.getId u))
-                ; This next line is ugly because `gremlin/outE *graph* nil`
-                ; returns a NPE.
-                (#(if label (gremlin/outE % label) (gremlin/outE %)) )
+                ; (gremlin/outV label) throws a NPE when label is nil, hence this:
+                (#(if label (gremlin/outE % label) (gremlin/outE %)))
                 (gremlin/inV)
                 (gremlin/has "id" (.getId v))
                 (gremlin/back 2)))]
