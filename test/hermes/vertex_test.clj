@@ -5,8 +5,7 @@
             [hermes.type :as t]))
 
 (def conf {:storage {:backend "hbase"
-                     :hostname "127.0.0.1"
-                     :directory "hermes_test_dir"}})
+                     :hostname "127.0.0.1"}})
 
 (deftest test-simple-property-mutation
   (g/open)
@@ -99,19 +98,19 @@
            (v/get-property (v/refresh (first v1-b)) :heritage)
            (v/get-property (v/refresh (first v2)) :heritage)))))
 
-(deftest test-upsert-backed-by-hbase!
+(deftest test-upsert!-backed-by-hbase
   (g/open conf)
   (g/transact! (t/create-vertex-key-once :first-name String {:indexed true})
                (t/create-vertex-key-once :last-name String {:indexed true}))  
   (let [v1-a (v/upsert! :first-name
-                        {:first-name "Zack" :last-name "Maril" :age 21})
+                        {:first-name "Zack" :last-name "Maril" :test 0})
         v1-b (v/upsert! :first-name
-                        {:first-name "Zack" :last-name "Maril" :age 22})
+                        {:first-name "Zack" :last-name "Maril" :test 1})
         v2   (v/upsert! :first-name
-                        {:first-name "Brooke" :last-name "Maril" :age 19})]
-    (is (= 22
-           (v/get-property (v/refresh (first v1-a)) :age)
-           (v/get-property (v/refresh (first v1-b)) :age)))
+                        {:first-name "Brooke" :last-name "Maril"})]
+    (is (= 1
+           (v/get-property (v/refresh (first v1-a)) :test)
+           (v/get-property (v/refresh (first v1-b)) :test)))
     (v/upsert! :last-name {:last-name "Maril"
                            :heritage "Some German Folks"})
     (is (= "Some German Folks"
