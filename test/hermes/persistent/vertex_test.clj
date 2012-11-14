@@ -1,13 +1,11 @@
 (ns hermes.persistent.vertex-test
   (:use [clojure.test])
+  (:use [hermes.persistent.conf :only (conf)])
   (:require [hermes.core :as g]
             [hermes.vertex :as v]
             [hermes.type :as t]))
 
-(def conf {:storage {:backend "hbase"
-                     :hostname "127.0.0.1"}})
-
-(deftest test-find-by-kv-backed-by-hbase
+(deftest test-find-by-kv-backed-by-conf
   (g/open conf)
   (g/transact! (t/create-vertex-key-once :age Long {:indexed true}))
   (g/transact!
@@ -22,7 +20,7 @@
      (is (= #{"B" "C"}
             (set (map #(v/get-property % :name) (v/find-by-kv :age 2))))))))
 
-(deftest test-upsert!-backed-by-hbase
+(deftest test-upsert!-backed-by-conf
   (g/open conf)
   (g/transact! (t/create-vertex-key-once :first-name String {:indexed true})
                (t/create-vertex-key-once :last-name  String {:indexed true}))  
