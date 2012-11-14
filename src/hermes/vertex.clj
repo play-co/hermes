@@ -9,7 +9,7 @@
   "Create a vertex, optionally with the given property map."
   ([] (create! {}))
   ([data]
-     (set-properties! (.addVertex *graph*) data)))
+     (set-properties! (.addVertex *graph* nil) data)))
 
 (defn get-by-id [& ids]
   "Retrieves nodes by id from the graph."
