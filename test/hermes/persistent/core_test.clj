@@ -39,7 +39,7 @@
           f2 (future (g/transact! (v/upsert! :vertex-id {:vertex-id random-long})))]
 
       (is (thrown? java.util.concurrent.ExecutionException
-        (do @f1 @f2)))))
+        (do @f1 @f2)) "The futures throw errors.")))
 
   (testing "With retries"
     (g/open conf)
@@ -50,7 +50,11 @@
           f1 (future (g/retry-transact! 3 100 (v/upsert! :vertex-id {:vertex-id random-long})))
           f2 (future (g/retry-transact! 3 100 (v/upsert! :vertex-id {:vertex-id random-long})))]
 
-      (do @f1 @f2)
+      (is (= random-long
+             (g/transact!
+               (v/get-property (v/refresh (first @f1)) :vertex-id))
+             (g/transact!
+               (v/get-property (v/refresh (first @f2)) :vertex-id))) "The futures have the correct values.")
 
       (is (= 1 (count
         (g/transact! (v/find-by-kv :vertex-id random-long))))

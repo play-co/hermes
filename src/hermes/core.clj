@@ -57,10 +57,10 @@
      (if (:value res)
        (:value res)
        (if (> try-count max-retries)
-         (throw (:exception res)
+         (throw (:exception res))
          (do
            (Thread/sleep wait-time)
-           (recur max-retries wait-time (inc try-count) f)))))))
+           (recur max-retries wait-time (inc try-count) f))))))
 
 (defmacro retry-transact! [max-retries wait-time & forms]
   "Perform graph operations inside a transaction.  The transaction will retry up to `max-retries` times, and will wait
