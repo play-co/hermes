@@ -33,7 +33,7 @@
     (g/open conf)
     (g/transact!
       (t/create-vertex-key-once :vertex-id Long {:indexed true
-                                            :unique true}))
+                                                 :unique true}))
     (let [random-long (long (rand-int 100000))
           f1 (future (g/transact! (v/upsert! :vertex-id {:vertex-id random-long})))
           f2 (future (g/transact! (v/upsert! :vertex-id {:vertex-id random-long})))]
@@ -45,7 +45,7 @@
     (g/open conf)
     (g/transact!
       (t/create-vertex-key-once :vertex-id Long {:indexed true
-                                            :unique true}))
+                                                 :unique true}))
     (let [random-long (long (rand-int 100000))
           f1 (future (g/retry-transact! 3 100 (v/upsert! :vertex-id {:vertex-id random-long})))
           f2 (future (g/retry-transact! 3 100 (v/upsert! :vertex-id {:vertex-id random-long})))]
