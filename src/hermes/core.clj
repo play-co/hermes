@@ -18,6 +18,7 @@
     conf))
 
 (defn open
+  "Open a graph.  If no configuration is supplied an in-memory graph is opened."
   ([ ] (alter-var-root (var *graph*) (fn [_] (TitanFactory/openInMemoryGraph))))
   ([m] (alter-var-root (var *graph*) (fn [_]
                                        (if (string? m)
@@ -46,6 +47,7 @@
     (f)))
 
 (defmacro transact! [& forms]
+  "Perform graph operations inside a transaction."
   `(~transact!* (fn [] ~@forms)))
 
 (defn- retry-transact!* [max-retries wait-time try-count f]
@@ -61,14 +63,18 @@
            (recur max-retries wait-time (inc try-count) f)))))))
 
 (defmacro retry-transact! [max-retries wait-time & forms]
+  "Perform graph operations inside a transaction.  The transaction will retry up to `max-retries` times, and will wait
+  `wait-time` milliseconds before each retry."
   `(~retry-transact!* ~max-retries ~wait-time 1 (fn [] ~@forms)))
 
 (defmacro with-graph
+  "Perform graph operations against a specific graph."
   [g & forms]
   `(binding [*graph* ~g]
      ~@forms))
 
 (defn ensure-graph-is-transaction-safe []
+  "Ensure that we are either in a transaction or using an in-memory graph."
   (when (not (#{StandardPersistTitanTx TitanInMemoryBlueprintsGraph}
               (type *graph*)))
     ;;TODO: Not a great error message. Could be better.
