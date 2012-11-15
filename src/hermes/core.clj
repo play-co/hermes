@@ -48,6 +48,21 @@
 (defmacro transact! [& forms]
   `(~transact!* (fn [] ~@forms)))
 
+(defn- retry-transact!* [max-retries wait-time try-count f]
+  (let [res (try {:value (transact!* f)}
+              (catch Exception e
+                {:exception e}))]
+     (if (:value res)
+       (:value res)
+       (if (> try-count max-retries)
+         (throw (:exception res)
+         (do
+           (Thread/sleep wait-time)
+           (recur max-retries wait-time (inc try-count) f)))))))
+
+(defmacro retry-transact! [max-retries wait-time & forms]
+  `(~retry-transact!* ~max-retries ~wait-time 1 (fn [] ~@forms)))
+
 (defmacro with-graph
   [g & forms]
   `(binding [*graph* ~g]
