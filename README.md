@@ -74,5 +74,9 @@ Copyright © 2012 Game Closure
 
 Distributed under the MIT license. 
 
-Yell at [Zack](http://www.twitter.com/ZackMaril) if it breaks. 
+## Contact
+
+Yell at [Zack](http://www.twitter.com/ZackMaril) if it breaks. Sometimes, we take over #hermes 
+on freenode, an old IRC channel that used to have what looks to be a somewhat active physics 
+discussion happening back in 2007. 
 
