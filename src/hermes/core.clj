@@ -25,15 +25,19 @@
                                          (TitanFactory/open m)
                                          (TitanFactory/open (convert-config-map m)))))))
 
-(defn- supports-transactions?
+(defn get-features
+  "Get a map of features for a graph.
+  (http://tinkerpop.com/docs/javadocs/blueprints/2.1.0/com/tinkerpop/blueprints/Features.html)"
   []
-  (-> *graph*
-      .getFeatures
-      .toMap
-      (.get "supportsTransactions")))
+  (-> *graph* .getFeatures .toMap))
+
+(defn get-feature
+  "Gets the value of the feature for a graph."
+  [f]
+  (.get (get-features) f))
 
 (defn- transact!* [f]
-  (if (supports-transactions?)
+  (if (get-feature "supportsTransactions")
     (try
       (let [tx      (.startTransaction *graph*)
             results (binding [*graph* tx] (f))]
