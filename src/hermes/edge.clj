@@ -1,10 +1,11 @@
 (ns hermes.edge
-  (:import (com.tinkerpop.blueprints Edge Direction))
+  (:import (com.tinkerpop.blueprints Edge Direction)
+           (com.tinkerpop.gremlin.java GremlinPipeline))
   (:require [hermes.vertex :as v]
-            [hermes.type   :as t]
-            [clj-gremlin.core   :as gremlin])
+            [hermes.type   :as t])
   (:use [hermes.core :only (*graph* transact! ensure-graph-is-transaction-safe)]
-        [hermes.util :only (immigrate)]))
+        [hermes.util :only (immigrate)]
+        [hermes.gremlin :only (query)]))
 
 (immigrate 'hermes.element)
 
@@ -32,25 +33,23 @@
   "Returns a set of the edges between two vertices."
   ([u v] (edges-between u v nil))
   ([u v label]
-    (ensure-graph-is-transaction-safe)
-    (if-let [edges
-              ; Source for this edge query:
-              ; https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
-              (seq (-> *graph*
-                (gremlin/v (.getId u))
-                ; (gremlin/outV label) throws a NPE when label is nil, hence this:
-                (#(if label (gremlin/outE % label) (gremlin/outE %)))
-                (gremlin/inV)
-                (gremlin/has "id" (.getId v))
-                (gremlin/back 2)))]
-         edges
-         nil)))
+     (ensure-graph-is-transaction-safe)
+     (if-let [edges
+              ;; Source for this edge query:
+              ;; https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
+              (query u
+                     (outE (into-array String (if label [label] [])))
+                     inV
+                     (has "id" (.getId v))
+                     (back 2))]
+       edges
+       nil)))
 
 (defn connected?
   "Returns whether or not two vertices are connected. Optional third
    arguement specifying the label of the edge."
   ([u v] (connected? u v nil))  
-  ([u v label]
+  ([u v label]     
      (ensure-graph-is-transaction-safe)
      (boolean (edges-between u v label))))
 

@@ -6,6 +6,6 @@
   :repositories [["typesafe" "http://repo.typesafe.com/typesafe/snapshots/"]
                  ["apache" "http://repository.apache.org/content/repositories/releases/"]] 
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [clj-gremlin "0.0.2"]
                  [com.tinkerpop.blueprints/blueprints-core "2.1.0"]
+                 [com.tinkerpop.gremlin/gremlin-java "2.1.0"]
                  [com.thinkaurelius.titan/titan "0.1.0"]])
