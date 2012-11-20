@@ -54,7 +54,7 @@
   "Perform graph operations inside a transaction."
   `(~transact!* (fn [] ~@forms)))
 
-(defn- retry-transact!* [max-retries wait-time try-count f]
+(defn- retry-transact!* [max-retries wait-time-fn try-count f]
   (let [res (try {:value (transact!* f)}
               (catch Exception e
                 {:exception e}))]
@@ -62,14 +62,20 @@
        (:value res)
        (if (> try-count max-retries)
          (throw (:exception res))
-         (do
+         (let [wait-time (wait-time-fn try-count)]
            (Thread/sleep wait-time)
-           (recur max-retries wait-time (inc try-count) f))))))
+           (recur max-retries wait-time-fn (inc try-count) f))))))
 
 (defmacro retry-transact! [max-retries wait-time & forms]
-  "Perform graph operations inside a transaction.  The transaction will retry up to `max-retries` times, and will wait
-  `wait-time` milliseconds before each retry."
-  `(~retry-transact!* ~max-retries ~wait-time 1 (fn [] ~@forms)))
+  "Perform graph operations inside a transaction.  The transaction will retry up
+  to `max-retries` times.  `wait-time` can be an integer corresponding to the
+  number of milliseconds to wait before each try, or it can be a function that
+  takes the retry number (starting with 1) and returns the number of
+  milliseconds to wait before that retry."
+  `(let [wait-time-fn# (if (ifn? ~wait-time)
+                           ~wait-time
+                           (constantly ~wait-time))]
+    (~retry-transact!* ~max-retries wait-time-fn# 1 (fn [] ~@forms))))
 
 (defmacro with-graph
   "Perform graph operations against a specific graph."
