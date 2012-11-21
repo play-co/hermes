@@ -9,14 +9,14 @@ A Clojure library designed to make it easy to work with embedded
 [Titan](http://thinkaurelius.github.com/titan/) graphs. Hermes is very
 much a work in progress. Titan is a young project and has yet to even
 hit 0.2. Hermes will probably always be a work in progress until Titan
-hits 1.0. So, use this in production at your own peril.
+hits 1.0. So, while we have tested this and used it in our production 
+ourselves, in general use this in production at your own peril.
 
-Check [clojars](https://clojars.org/hermes) for the latest jar. The
-best thing to do is set up lein checkouts and clone the library
-directly for now. Reading the tests and source code should bring you
-up to speed with the library. We are still writing the docs and
-example projects.
+To get started, add this dependency to your `project.clj`:
 
+``` clojure
+[hermes "0.0.2"]
+```
 
 ## Example
 ``` clojure
