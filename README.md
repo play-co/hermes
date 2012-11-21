@@ -9,7 +9,7 @@ A Clojure library designed to make it easy to work with embedded
 [Titan](http://thinkaurelius.github.com/titan/) graphs. Hermes is very
 much a work in progress. Titan is a young project and has yet to even
 hit 0.2. Hermes will probably always be a work in progress until Titan
-hits 1.0. So, while we have tested this and used it in our production 
+hits 1.0. So, while we have tested this and used it in production 
 ourselves, in general use this in production at your own peril.
 
 To get started, add this dependency to your `project.clj`:
