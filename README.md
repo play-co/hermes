@@ -15,7 +15,7 @@ ourselves, in general use this in production at your own peril.
 To get started, add this dependency to your `project.clj`:
 
 ``` clojure
-[hermes "0.0.2"]
+[hermes "0.2.2"]
 ```
 
 ## Example
