@@ -10,9 +10,9 @@
 
 (deftest test-opening-a-graph-with-conf
   (testing "Stored graph"
-    (println "Make sure hbase is up and running locally.")
+    (println "Make sure Cassandra is up and running locally.")
     (println "Be careful with types! They don't get removed or rewritten ever. ")
-    (println "When you are doing the backed-by-hbase tests, always be on the look out.")
+    (println "When you are doing the persistent tests, always be on the look out.")
     (g/open conf)
     (is (= (type g/*graph*)
            StandardTitanGraph))))
