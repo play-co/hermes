@@ -23,3 +23,18 @@
       (is (= 1 (count (seq (.getVertices graph)))) "graph has the new vertex")
       (is (= 0 (count (seq (.getVertices g/*graph*)))) "the usual *graph* is still empty"))))
 
+
+(def sum (partial reduce +))
+(deftest test-retry-transact! 
+  (testing "with-graph macro"
+    (g/open)
+    (let [clock (atom [])
+          punch-clock (fn [] (swap! clock concat [(System/currentTimeMillis)]))]
+      (is (thrown? Exception (g/retry-transact! 3 (fn [n] (* n 100))
+                                                (punch-clock)
+                                                (/ 1 0))))
+      (let [[a,b,c] (map (fn [a b] (- a b)) (rest @clock) @clock)]
+        (is (>= a 100))
+        (is (>= b 200))
+        (is (>= c 300))))))
+
