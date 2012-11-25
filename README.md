@@ -13,11 +13,10 @@ started, add this dependency to your `project.clj`:
 [hermes "0.2.2"]
 ```
 
-## Getting started
-
-Take a look at [the wiki](https://github.com/gameclosure/hermes/wiki).
-
-## Word to the Wise 
+Take a look at [the wiki](https://github.com/gameclosure/hermes/wiki)
+for information about Hermes. Try the [getting
+started](https://github.com/gameclosure/hermes/wiki/Getting-Started)
+page if you are in the mood for barrelling through an example.
 
 Titan is a young project and has yet to hit 0.2. Hermes will probably
 always be a "work in progress" until Titan hits 1.0. With all that in
