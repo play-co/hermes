@@ -6,13 +6,8 @@
 >-[Hermes Conrad](https://www.youtube.com/watch?v=AkA0fYfT-vI)
 
 A Clojure library designed to make it easy to work with embedded
-[Titan](http://thinkaurelius.github.com/titan/) graphs. Hermes is very
-much a work in progress. Titan is a young project and has yet to even
-hit 0.2. Hermes will probably always be a work in progress until Titan
-hits 1.0. So, while we have tested this and used it in production 
-ourselves, in general use this in production at your own peril.
-
-To get started, add this dependency to your `project.clj`:
+[Titan](http://thinkaurelius.github.com/titan/) graphs. To get
+started, add this dependency to your `project.clj`:
 
 ``` clojure
 [hermes "0.2.2"]
@@ -20,7 +15,17 @@ To get started, add this dependency to your `project.clj`:
 
 ## Getting started
 
-Why not take a look at [the wiki](https://github.com/gameclosure/hermes/wiki/Getting-Started)?
+Take a look at [the wiki](https://github.com/gameclosure/hermes/wiki).
+
+## Word to the Wise 
+
+Titan is a young project and has yet to hit 0.2. Hermes will probably
+always be a "work in progress" until Titan hits 1.0. With all that in
+mind, we've created a solid set of tests that encapsulates everything
+we want Hermes to do right now. While we don't know all of the myriad
+changes that will for sure come to both Hermes and Titan in the
+future, we do know that both pieces of software seem to work as
+intended right now.  
 
 ## License
 
@@ -30,7 +35,9 @@ Distributed under the MIT license.
 
 ## Contact
 
-Yell at [Zack](http://www.twitter.com/ZackMaril) if it breaks. Sometimes, we take over #hermes 
-on freenode, an old IRC channel that used to have what looks to be a somewhat active physics 
-discussion happening back in 2007. 
+Yell at Zack, via [twitter](http://www.twitter.com/ZackMaril) and/or
+[email](mailto:zack@gameclosure.com), if Hermes breaks. Sometimes, we
+take over #hermes on freenode, an old IRC channel that used to have
+what looks to be a somewhat active physics discussion happening back
+in 2007.
 
