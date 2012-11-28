@@ -58,7 +58,7 @@
   (let [res (try {:value (transact!* f)}
               (catch Exception e
                 {:exception e}))]
-     (if (:value res)
+     (if (not (:exception res))
        (:value res)
        (if (> try-count max-retries)
          (throw (:exception res))
