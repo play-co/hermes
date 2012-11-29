@@ -3,13 +3,14 @@
 
 (defn make-ogre [vertex]
   (let [Ogre (proxy [GremlinPipeline] [vertex])]
-    Ogre)
+    Ogre))
 
-  )
+(defn gremlin-eval [ob]
+  (if (instance? GremlinPipeline ob)
+    (seq (.toList ob))
+    ob))
 
-(defmacro query [vertex & body]
-  `(seq (.. (make-ogre ~vertex)
-            ~@body
-            toList
-            )))
+(defmacro query [vertex & body]  
+ `(gremlin-eval (.. (make-ogre ~vertex)
+                          ~@body)))
 
