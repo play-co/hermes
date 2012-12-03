@@ -15,7 +15,7 @@
   HermesElement
 
   (get-keys [this]
-    (.getPropertyKeys this))
+    (set (map keyword (.getPropertyKeys this))))
   
   (get-id [this]
     (.getId this))
