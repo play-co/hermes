@@ -2,7 +2,8 @@
   (:require [clojure.java.io :as io]
             [hermes.core :as g])
   (:import [com.tinkerpop.blueprints.util.io.graphml GraphMLWriter GraphMLReader]
-           [com.tinkerpop.blueprints.util.io.gml GMLWriter GMLReader]))
+           [com.tinkerpop.blueprints.util.io.gml GMLWriter GMLReader]
+           [com.tinkerpop.blueprints.util.io.graphson GraphSONWriter GraphSONReader]))
 
 (defn- load-graph-with-reader
   [reader string-or-file]
@@ -24,3 +25,15 @@
 (def load-graph-graphml (partial load-graph-with-reader #(GraphMLReader/inputGraph %1 %2)))
 (def write-graph-graphml (partial write-graph-with-writer #(GraphMLWriter/outputGraph %1 %2)))
 
+;; GraphSON
+(def load-graph-graphson (partial load-graph-with-reader #(GraphSONReader/inputGraph %1 %2)))
+
+; write-graph-graphson can take an optional 2nd argument:
+; show-types - determines if types are written explicitly to the JSON
+; Note that for Titan Graphs with types, you will want show-types=true.
+; See https://github.com/tinkerpop/blueprints/wiki/GraphSON-Reader-and-Writer-Library
+(defn write-graph-graphson
+  [string-or-file & [ show-types ]]
+  (write-graph-with-writer
+    #(GraphSONWriter/outputGraph %1 %2 (boolean show-types))
+    string-or-file))
