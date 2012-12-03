@@ -18,7 +18,7 @@ for information about Hermes and how to use the library. Try the
 [Quick Start](https://github.com/gameclosure/hermes/wiki/Quick-Start)
 page if you are in the mood for barrelling through an example.
 
-## Youth
+# Youth
 Titan is a young project and has yet to hit 0.2. Hermes will probably
 always be a "work in progress" until Titan hits 1.0. With all that in
 mind, we've created a solid set of tests that encapsulates everything
@@ -28,13 +28,13 @@ future, we do know that both pieces of software seem to work as
 intended and that we plan on adapting Hermes as quickly as possible to
 take advantage of whatever the Titan team puts out. 
 
-## License
+# License
 
 Copyright © 2012 Game Closure
 
 Distributed under the MIT license. 
 
-## Contact
+# Contact
 
 Yell at Zack, via [twitter](http://www.twitter.com/ZackMaril) and/or
 [email](mailto:zack@gameclosure.com), if Hermes breaks. 
