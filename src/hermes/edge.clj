@@ -18,7 +18,7 @@
 (defn refresh [edge]
   "Goes and grabs the edge from the graph again. Useful for \"refreshing\" stale edges."
   (ensure-graph-is-transaction-safe)
-  (.getEdge *graph* edge))
+  (.getEdge *graph* (.getId edge)))
 
 (defn connect!
   "Connects two vertices with the given label, and, optionally, with the given properties."
