@@ -5,6 +5,13 @@
 
 (immigrate 'hermes.element)
 
+(defn prop-map [vertex]
+  (into {:__id__ (get-id vertex)}
+        (map
+         (juxt #(-> % (.getPropertyKey) (.getName) keyword)
+               #(.getAttribute %))
+         (.getProperties vertex))))
+
 (defn create!  
   "Create a vertex, optionally with the given property map."
   ([] (create! {}))

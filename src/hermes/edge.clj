@@ -9,6 +9,17 @@
 
 (immigrate 'hermes.element)
 
+(defn get-label [edge]
+  (.. edge getTitanLabel getName))
+
+(defn prop-map [edge]
+  (into {:__id__ (get-id edge)
+         :__label__ (get-label edge)}
+        (map
+         (juxt #(-> % (.getPropertyKey) (.getName) keyword)
+               #(.getAttribute %))
+         (.getProperties edge))))
+
 (defn endpoints [this]
   "Returns the endpoints of the edge in array with the order [starting-node,ending-node]."
   (ensure-graph-is-transaction-safe)

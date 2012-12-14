@@ -6,9 +6,8 @@
 
 (g/open)
 
-
 (g/transact! (t/create-vertex-key-once :name-a String {:unique true
-                                                     :indexed true}))
+                                                       :indexed true}))
 
 (def Zack (g/transact! (first (v/upsert! :name-a
                                          {:name-a "Zack"

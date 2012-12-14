@@ -30,7 +30,7 @@
         v2 (v/create! {:name "v2"})
         edge (e/connect! v1 v2 "test" {:a 1 :b 2 :c 3})
         prop-map (e/prop-map edge)]
-    (is (= {:a 1 :b 2 :c 3} (dissoc prop-map :id)))))
+    (is (= {:a 1 :b 2 :c 3} (dissoc prop-map :__id__ :__label__)))))
 
 (deftest test-endpoints
   (g/open)
