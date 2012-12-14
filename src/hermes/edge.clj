@@ -12,6 +12,13 @@
 ;;
 ;;Information getters
 ;;
+(defn find-by-id [& ids]
+  "Retrieves nodes by id from the graph."
+  (ensure-graph-is-transaction-safe)
+  (if (= 1 (count ids))
+    (.getEdge *graph* (first ids))
+    (seq (for [id ids] (.getEdge *graph* id)))))
+
 
 (defn get-label [edge]
   (.. edge getTitanLabel getName))

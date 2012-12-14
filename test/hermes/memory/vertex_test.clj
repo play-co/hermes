@@ -10,8 +10,8 @@
   (let [u (v/create! {:name "v1"})
         u-id (v/get-id u)]
     (v/delete! u)
-    (is nil (v/get-by-id u-id))
-    (is nil (v/get-by-kv :name "v1"))))
+    (is (=  nil (v/find-by-id u-id)))
+    (is (empty? (v/find-by-kv :name "v1")))))
 
 (deftest test-simple-property-mutation
   (g/open)

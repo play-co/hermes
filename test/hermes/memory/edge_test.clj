@@ -4,6 +4,15 @@
             [hermes.edge :as e]
             [hermes.vertex :as v]))
 
+(deftest test-delete
+  (g/open)
+  (let [u (v/create!)
+        w (v/create!)
+        a (e/connect! u w "test")
+        a-id (e/get-id a)]
+    (e/delete! a)
+    (is (=  nil (e/find-by-id a-id)))))
+
 (deftest test-simple-property-mutation
   (g/open)
   (let [v1 (v/create! {:name "v1"})
