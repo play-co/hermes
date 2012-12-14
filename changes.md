@@ -1,5 +1,9 @@
 Changes 
 
+* Dec 14th, 2012 - Bumped project number to 0.2.4. Changed v/get-by-id
+  to v/find-by-id and added in a analog for edges. Added in delete!
+  methods with tests. Changed prop-map to return with `:__id__` instead
+  of `:id`, and added in `:__label` to edge. 
 * Dec 3rd, 2012 - Bumped project number to 0.2.3. Whenever a key of an
   object is returned, it must be a keyword. Likewise, whenever a
   collection is returned by a function it must be a clojure
