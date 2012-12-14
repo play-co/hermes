@@ -5,19 +5,17 @@
 
 (immigrate 'hermes.element)
 
+;;
+;;Information getters
+;;
+
 (defn prop-map [vertex]
+  "Returns a Persistent map representing the edge"
   (into {:__id__ (get-id vertex)}
         (map
          (juxt #(-> % (.getPropertyKey) (.getName) keyword)
                #(.getAttribute %))
          (.getProperties vertex))))
-
-(defn create!  
-  "Create a vertex, optionally with the given property map."
-  ([] (create! {}))
-  ([data]
-     (ensure-graph-is-transaction-safe)
-     (set-properties! (.addVertex *graph*) data)))
 
 (defn get-by-id [& ids]
   "Retrieves nodes by id from the graph."
@@ -32,10 +30,25 @@
   (ensure-graph-is-transaction-safe)
   (set (.getVertices *graph* (name k) v)))
 
+;;
+;; Transaction management
+;;
+
 (defn refresh [vertex]
   "Gets a vertex back from the database and refreshes it to be usable again."
   (ensure-graph-is-transaction-safe)
   (.getVertex *graph* vertex))
+
+;;
+;; Creation methods
+;;
+
+(defn create!  
+  "Create a vertex, optionally with the given property map."
+  ([] (create! {}))
+  ([data]
+     (ensure-graph-is-transaction-safe)
+     (set-properties! (.addVertex *graph*) data)))
 
 (defn upsert! [k m]
   "Given a key and a property map, upsert! either creates a new node
@@ -49,3 +62,14 @@
        (do
          (doseq [vertex vertices] (set-properties! vertex m))
          vertices))))
+
+;;
+;; Deletion methods
+;;
+
+(defn delete!  
+  "Delete a vertex."
+  ([vertex]
+     (ensure-graph-is-transaction-safe)
+     (.removeVertex *graph* vertex)))
+
