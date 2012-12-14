@@ -4,6 +4,15 @@
             [hermes.vertex :as v]
             [hermes.type :as t]))
 
+(deftest test-delete
+  (g/open)
+  (t/create-vertex-key :name String {:indexed true})
+  (let [u (v/create! {:name "v1"})
+        u-id (v/get-id u)]
+    (v/delete! u)
+    (is nil (v/get-by-id u-id))
+    (is nil (v/get-by-kv :name "v1"))))
+
 (deftest test-simple-property-mutation
   (g/open)
   (let [u (v/create! {:name "v1" :a 1 :b 1})]
@@ -29,20 +38,20 @@
     (is (= 2 (prop-map :b)))
     (is (= 3 (prop-map :c)))))
 
-(deftest test-get-by-id-single
+(deftest test-find-by-id-single
   (g/open)
   (let [v1 (v/create! {:prop 1})
         v1-id (v/get-id v1)
-        v1-maybe (v/get-by-id v1-id)]
+        v1-maybe (v/find-by-id v1-id)]
     (is (= 1 (v/get-property v1-maybe :prop)))))
 
-(deftest test-get-by-id-multiple
+(deftest test-find-by-id-multiple
   (g/open)
   (let [v1 (v/create! {:prop 1})
         v2 (v/create! {:prop 2})
         v3 (v/create! {:prop 3})
         ids (map v/get-id [v1 v2 v3])
-        v-maybes (apply v/get-by-id ids)]
+        v-maybes (apply v/find-by-id ids)]
     (is (= (range 1 4) (map #(v/get-property % :prop) v-maybes)))))
 
 (deftest test-find-by-kv

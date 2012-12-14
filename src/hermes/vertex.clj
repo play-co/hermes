@@ -17,7 +17,7 @@
                #(.getAttribute %))
          (.getProperties vertex))))
 
-(defn get-by-id [& ids]
+(defn find-by-id [& ids]
   "Retrieves nodes by id from the graph."
   (ensure-graph-is-transaction-safe)
   (if (= 1 (count ids))
