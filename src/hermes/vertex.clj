@@ -12,10 +12,7 @@
 (defn prop-map [vertex]
   "Returns a Persistent map representing the edge"
   (into {:__id__ (get-id vertex)}
-        (map
-         (juxt #(-> % (.getPropertyKey) (.getName) keyword)
-               #(.getAttribute %))
-         (.getProperties vertex))))
+        (map #(vector (keyword %) (get-property vertex %)) (get-keys vertex))))
 
 (defn find-by-id [& ids]
   "Retrieves nodes by id from the graph."

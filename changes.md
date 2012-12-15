@@ -1,5 +1,8 @@
 Changes 
 
+* Dec 15th, 2012 - Bumped project number to 0.2.5. Added in support
+  for storing common clojure data structures. Take a look at kyro.clj
+  for more information as well as the corresponding tests.
 * Dec 14th, 2012 - Bumped project number to 0.2.4. Changed v/get-by-id
   to v/find-by-id and added in a analog for edges. Added in delete!
   methods with tests. Changed prop-map to return with `:__id__` instead

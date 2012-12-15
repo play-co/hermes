@@ -26,10 +26,7 @@
 (defn prop-map [edge]
   (into {:__id__ (get-id edge)
          :__label__ (get-label edge)}
-        (map
-         (juxt #(-> % (.getPropertyKey) (.getName) keyword)
-               #(.getAttribute %))
-         (.getProperties edge))))
+        (map #(vector (keyword %) (get-property edge %)) (get-keys edge))))
 
 (defn endpoints [this]
   "Returns the endpoints of the edge in array with the order [starting-node,ending-node]."
