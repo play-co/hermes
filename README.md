@@ -10,7 +10,7 @@ A Clojure library designed to make it easy to work with embedded
 started, add this dependency to your `project.clj`:
 
 ``` clojure
-[hermes "0.2.6"]
+[hermes "0.2.6-SNAPSHOT"]
 ```
 
 Take a look at [the wiki](https://github.com/gameclosure/hermes/wiki)
