@@ -6,7 +6,7 @@
 >-[Hermes Conrad](https://www.youtube.com/watch?v=AkA0fYfT-vI)
 
 A Clojure library designed to make it easy to work with
-[Titan](http://thinkaurelius.github.com/titan/) graphs. To get
+[Titan](http://thinkaurelius.github.com/titan/). To get
 started, add this dependency to your `project.clj`:
 
 ``` clojure
