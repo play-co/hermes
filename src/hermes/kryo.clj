@@ -1,4 +1,4 @@
-(ns hermes.kyro
+(ns hermes.kryo
   "Experimental support for using clojure data structures as properties in Titan."
   )
 

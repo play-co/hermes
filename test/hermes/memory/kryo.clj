@@ -1,9 +1,9 @@
-(ns hermes.memory.kyro
+(ns hermes.memory.kryo
   (:use [clojure.test])
   (:require [hermes.core :as g]
             [hermes.edge :as e]
             [hermes.vertex :as v]
-            [hermes.kyro :as k]))
+            [hermes.kryo :as k]))
 
 (deftest test-vector-and-back-again
   (let [a [1 2 3]

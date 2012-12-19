@@ -1,10 +1,10 @@
-(ns hermes.persistent.kyro
+(ns hermes.persistent.kryo
   (:use [clojure.test])
   (:use [hermes.persistent.conf :only (conf)])
   (:require [hermes.core :as g]
             [hermes.edge :as e]
             [hermes.vertex :as v]
-            [hermes.kyro :as k]))
+            [hermes.kryo :as k]))
 
 (deftest test-persisting-vector-and-back-again
   (g/open conf)

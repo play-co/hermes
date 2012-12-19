@@ -1,6 +1,6 @@
 (ns hermes.element
   (:import (com.tinkerpop.blueprints Element))
-  (require [hermes.kyro :as kyro]))
+  (require [hermes.kryo :as kryo]))
 
 (defprotocol HermesElement
   "Tinkerpop element"
@@ -26,14 +26,14 @@
     ;;user's id for example. 
     (when (not= value (get-property this (name key)))
       (.removeProperty this (name key)) ;;Hacky work around! Yuck!
-      (.setProperty this (name key) (kyro/prepare value))))
+      (.setProperty this (name key) (kryo/prepare value))))
   
   (set-properties!  [this data]
     (doseq [[k v] data] (set-property! this (name k) v))
     this)
 
   (get-property [this key]
-    (kyro/revert (.getProperty this (name key))))
+    (kryo/revert (.getProperty this (name key))))
 
   (remove-property! [this key]
     (.removeProperty this (name key))))
