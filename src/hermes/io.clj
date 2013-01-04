@@ -3,7 +3,7 @@
             [hermes.core :as g])
   (:import [com.tinkerpop.blueprints.util.io.graphml GraphMLWriter GraphMLReader]
            [com.tinkerpop.blueprints.util.io.gml GMLWriter GMLReader]
-           [com.tinkerpop.blueprints.util.io.graphson GraphSONWriter GraphSONReader]))
+           [com.tinkerpop.blueprints.util.io.graphson GraphSONWriter GraphSONReader GraphSONMode]))
 
 (defn- load-graph-with-reader
   [reader string-or-file]
@@ -34,6 +34,7 @@
 ; See https://github.com/tinkerpop/blueprints/wiki/GraphSON-Reader-and-Writer-Library
 (defn write-graph-graphson
   [string-or-file & [ show-types ]]
-  (write-graph-with-writer
-    #(GraphSONWriter/outputGraph %1 %2 (boolean show-types))
-    string-or-file))
+  (let [graphSON-mode (if show-types GraphSONMode/EXTENDED GraphSONMode/NORMAL)]
+    (write-graph-with-writer
+      #(GraphSONWriter/outputGraph %1 %2 graphSON-mode)
+      string-or-file)))
