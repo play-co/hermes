@@ -4,8 +4,7 @@
             [hermes.type :as t]
             [hermes.vertex :as v])
   (:use [hermes.persistent.conf :only (conf)])
-  (:import  (com.thinkaurelius.titan.graphdb.blueprints TitanInMemoryBlueprintsGraph)
-            (com.thinkaurelius.titan.graphdb.database   StandardTitanGraph)
+  (:import  (com.thinkaurelius.titan.graphdb.database   StandardTitanGraph)
             (com.thinkaurelius.titan.graphdb.vertices   PersistStandardTitanVertex)))
 
 (deftest test-opening-a-graph-with-conf

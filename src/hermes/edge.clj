@@ -39,7 +39,7 @@
   ([u v] (edges-between u v nil))
   ([u v label]
      (ensure-graph-is-transaction-safe)
-     (if-let [edges
+     (when-let [edges
               ;; Source for this edge query:
               ;; https://groups.google.com/forum/?fromgroups=#!topic/gremlin-users/R2RJxJc1BHI
               (query u
@@ -47,8 +47,7 @@
                      inV
                      (has "id" (.getId v))
                      (back 2))]
-       edges
-       nil)))
+       edges)))
 
 (defn connected?
   "Returns whether or not two vertices are connected. Optional third
