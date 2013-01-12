@@ -57,13 +57,13 @@
   (let [res (try {:value (transact!* f)}
               (catch Exception e
                 {:exception e}))]
-     (if (not (:exception res))
-       (:value res)
-       (if (> try-count max-retries)
-         (throw (:exception res))
-         (let [wait-time (wait-time-fn try-count)]
-           (Thread/sleep wait-time)
-           (recur max-retries wait-time-fn (inc try-count) f))))))
+    (if-not (:exception res)
+      (:value res)
+      (if (> try-count max-retries)
+        (throw (:exception res))
+        (let [wait-time (wait-time-fn try-count)]
+          (Thread/sleep wait-time)
+          (recur max-retries wait-time-fn (inc try-count) f))))))
 
 (defmacro retry-transact! [max-retries wait-time & forms]
   "Perform graph operations inside a transaction.  The transaction will retry up
@@ -84,7 +84,8 @@
 
 (defn ensure-graph-is-transaction-safe []
   "Ensure that we are either in a transaction or using an in-memory graph."
-  (when (not (#{StandardPersistTitanTx TitanInMemoryBlueprintsGraph}
-              (type *graph*)))
-    ;;TODO: Not a great error message. Could be better.
-    (throw (Throwable. "All actions on a persistent graph must be wrapped in transact! "))))
+  (when-not (#{TitanInMemoryBlueprintsGraph StandardPersistTitanTx}
+              (type *graph*))
+    (throw
+      (Throwable.
+        "All actions on a persistent graph must be wrapped in transact! "))))

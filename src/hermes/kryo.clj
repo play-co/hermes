@@ -25,7 +25,7 @@
 (defn revert [val]
   "Reverts java data structures back to the corresponding clojure data structures."
   (condp = (type val)
-    java.util.ArrayList (into [] (map revert (seq val)))
-    java.util.HashSet (into #{} (map revert (seq val)))
+    java.util.ArrayList (vec (map revert (seq val)))
+    java.util.HashSet (set (map revert (seq val)))
     java.util.HashMap (into {} (for [[k v] val] [(keyword k) (revert v)]))
     val))
