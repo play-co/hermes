@@ -4,7 +4,6 @@
             [hermes.type :as t]
             [hermes.vertex :as v])
   (:import  (com.thinkaurelius.titan.graphdb.blueprints TitanInMemoryBlueprintsGraph)
-            (com.thinkaurelius.titan.graphdb.database   StandardTitanGraph)
             (com.thinkaurelius.titan.graphdb.vertices   PersistStandardTitanVertex)
             (com.thinkaurelius.titan.core               TitanFactory)))
 
