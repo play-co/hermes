@@ -11,5 +11,5 @@
                  [com.tinkerpop.blueprints/blueprints-core "2.2.0"]
                  [com.tinkerpop.gremlin/gremlin-java "2.2.0"]
                  [com.thinkaurelius.titan/titan "0.2.0-SNAPSHOT"]]
-  :profiles {:dev {:plugins [[jonase/kibit "0.0.4"]]}})
+  :profiles {:dev {:plugins [[lein-kibit "0.0.7"]]}})
 
