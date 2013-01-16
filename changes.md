@@ -1,6 +1,8 @@
 Changes 
-* Dec 17th, 2012 - Bumped project number to 0.2.6-SNAPSHOT. Titan to 0.2-SNAPSHOT. No
-  API changes. Watch out for a change in how Titan stores id's. 
+* Jan 15, 2013 - Bumped project number to 0.2.6. Titan to 0.2. 
+* Dec 17th, 2012 - Bumped project number to 0.2.6-SNAPSHOT. Titan to
+  0.2-SNAPSHOT. No API changes. Watch out for a change in how Titan
+  stores id's.
 * Dec 15th, 2012 - Bumped project number to 0.2.5. Added in support
   for storing common clojure data structures. Take a look at kyro.clj
   for more information as well as the corresponding tests.
