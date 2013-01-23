@@ -60,6 +60,17 @@
          (doseq [vertex vertices] (set-properties! vertex m))
          vertices))))
 
+(defn replace!
+  "Given a key, a value, and a property map, replace! finds all nodes with 
+  the given key value pair and updates all fields with the new properties 
+  by the map. Returns the set of vertices just replaced, if any."
+  [k v m]
+  (ensure-graph-is-transaction-safe)
+  (let [vertices (find-by-kv (name k) v)]
+    (if (empty? vertices)
+      (set [])
+      (doall (set (map #(set-properties! % m) vertices))))))
+
 ;;
 ;; Deletion methods
 ;;
