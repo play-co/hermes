@@ -1,9 +1,9 @@
 (ns hermes.persistent.core-test
-  (:use clojure.test)
+  (:use clojure.test
+        [hermes.persistent.conf :only (conf)])
   (:require [hermes.core :as g]
             [hermes.type :as t]
             [hermes.vertex :as v])
-  (:use [hermes.persistent.conf :only (conf)])
   (:import  (com.thinkaurelius.titan.graphdb.database   StandardTitanGraph)
             (com.thinkaurelius.titan.graphdb.vertices   PersistStandardTitanVertex)))
 

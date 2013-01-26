@@ -1,6 +1,6 @@
 (ns hermes.persistent.vertex-test
-  (:use [clojure.test])
-  (:use [hermes.persistent.conf :only (conf)])
+  (:use [clojure.test]
+        [hermes.persistent.conf :only (conf)])
   (:require [hermes.core :as g]
             [hermes.vertex :as v]
             [hermes.type :as t]))
