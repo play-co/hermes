@@ -50,8 +50,8 @@
 (defn upsert! [k m]
   "Given a key and a property map, upsert! either creates a new node
    with that property map or updates all nodes with the given key
-   value pair to have the new properties specifiied by the map. Always
-   returns the set of vertices that were just update or created."
+   value pair to have the new properties specified by the map. Always
+   returns the set of vertices that were just updated or created."
   (ensure-graph-is-transaction-safe)
    (let [vertices (find-by-kv (name k) (k m))]
      (if (empty? vertices)
